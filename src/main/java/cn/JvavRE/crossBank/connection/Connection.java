@@ -129,7 +129,7 @@ import java.util.concurrent.*;
         plugin.getServer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
     }
 
-    public DataPack requireDataPack(DataPack dataPack, String serverID) {
+    public DataPack request(DataPack dataPack, String serverID) {
         CompletableFuture<DataPack> future = new CompletableFuture<>();
         dataPackFutures.put(dataPack.getUUID(), future);
 
@@ -363,7 +363,7 @@ public class Connection {
         }
     }
 
-    public DataPack requireDataPack(DataPack dataPack) {
+    public DataPack request(DataPack dataPack) {
         CompletableFuture<DataPack> future = new CompletableFuture<>();
         dataPackFutures.put(dataPack.getUUID(), future);
         sendDataToServer(dataPack);
@@ -409,7 +409,7 @@ public class Connection {
     }
 
     protected DataPack processServerDataPack(DataPack dataPack) {
-        plugin.getLogger().info("服务端收到数据包: "+dataPack);
+        plugin.getLogger().info("服务端收到数据包: " + dataPack);
         if (dataPack.isForServer()) {
             switch (dataPack.getType()) {
                 case SEVER_GET_NAMES -> {
@@ -492,7 +492,7 @@ public class Connection {
         if (running) plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, task -> {
             try {
                 DataPack dataPack = DataPack.build().withType(DataPack.messageType.SEVER_GET_NAMES);
-                onlineServers = requireDataPack(dataPack).getMessage().split(";");
+                onlineServers = request(dataPack).getMessage().split(";");
 
             } catch (Exception e) {
                 startUpdateServersTask();
@@ -505,7 +505,7 @@ public class Connection {
         return onlineServers;
     }
 
-    public DataPack requireDataPack(DataPack dataPack) {
+    public DataPack request(DataPack dataPack) {
         CompletableFuture<DataPack> future = new CompletableFuture<>();
         dataPackFutures.put(dataPack.getUUID(), future);
         client.sendDataToServer(dataPack);

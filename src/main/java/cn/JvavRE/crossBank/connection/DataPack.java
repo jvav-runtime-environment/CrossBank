@@ -199,6 +199,7 @@ public class DataPack {
         RESULT_AMOUNT,
         RESULT_SUCCEED,
         RESULT_FAILED,
+
         RESULT_INTERNAL_ERROR,
     }
 }

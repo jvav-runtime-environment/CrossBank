@@ -21,10 +21,6 @@ public class Config {
         return serverName;
     }
 
-    public static boolean isIsServer() {
-        return isServer;
-    }
-
     public static int getPort() {
         return port;
     }
