@@ -1,0 +1,12 @@
+name: CrossBank
+version: '1.0-SNAPSHOT'
+main: cn.JvavRE.crossBank.CrossBank
+api-version: '1.21'
+author: Jvav_Runtime_Environment
+description: 跨服银行插件
+softdepend:
+  - Vault
+commands:
+  cbank:
+    description: CrossBank main command
+    usage: /cbank ...

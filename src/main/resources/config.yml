@@ -1,0 +1,4 @@
+server-host: localhost
+server-port: 11891
+run-as-server: true
+server-name: random
