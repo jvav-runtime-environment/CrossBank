@@ -19,7 +19,7 @@ public class Command implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (args.length > 1) {
+        if (args.length >= 1) {
             switch (args[0]) {
                 case "ping" -> onPing(sender, args);
                 case "online" -> onOnline(sender, args);
@@ -27,6 +27,8 @@ public class Command implements CommandExecutor {
                 case "withdraw" -> onWithdraw(sender, args);
                 case "deposit" -> onDeposit(sender, args);
             }
+        }else {
+            Message.sendErrorMsg(sender,"用法错误");
         }
 
         return true;
@@ -139,13 +141,13 @@ public class Command implements CommandExecutor {
         plugin.getEcoManager().startCrossDeposit(player, serverName, Double.parseDouble(amount));
     }
 
-    private void onOnline(CommandSender sender, String[] args){
-        if(!sender.hasPermission("cbank.online")){
+    private void onOnline(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("cbank.online")) {
             Message.sendErrorMsg(sender, "你没有权限");
             return;
         }
 
-        Message.sendMessage(sender, "当前在线服务器: "+String.join(", ", plugin.getConnManager().getOnlineServers()));
+        Message.sendMessage(sender, "当前在线服务器: " + String.join(", ", plugin.getConnManager().getOnlineServers()));
     }
 
     private boolean isDigit(String string) {

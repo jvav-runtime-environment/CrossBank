@@ -17,7 +17,7 @@ public class Connection {
     private final Server server;
     private final Client client;
     private final Map<UUID, CompletableFuture<DataPack>> dataPackFutures;
-    private String[] onlineServers;
+    private String[] onlineServers = {};
 
     private boolean running;
 
@@ -117,7 +117,12 @@ public class Connection {
         if (running) plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, task -> {
             try {
                 DataPack dataPack = DataPack.build().withType(DataPack.messageType.SERVER_GET_NAMES);
-                onlineServers = request(dataPack).getMessage().split(";");
+                DataPack response = request(dataPack);
+
+                switch (response.getType()) {
+                    case RESULT_GET_NAMES -> onlineServers = response.getMessage().split(";");
+                    default -> onlineServers = new String[]{};
+                }
 
             } catch (Exception e) {
                 startUpdateServersTask();
