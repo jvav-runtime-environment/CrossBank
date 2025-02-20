@@ -180,7 +180,7 @@ public class Connection {
 
         if (dataPack.isForServer()) {
             switch (dataPack.getType()) {
-                case SEVER_GET_NAMES -> {
+                case SERVER_GET_NAMES -> {
                     List<String> onlineServers = new ArrayList<>(connectedClients.keySet());
                     response = new DataPack(
                             DataPack.messageType.RESULT_GET_NAMES,
@@ -412,7 +412,7 @@ public class Connection {
         plugin.getLogger().info("服务端收到数据包: " + dataPack);
         if (dataPack.isForServer()) {
             switch (dataPack.getType()) {
-                case SEVER_GET_NAMES -> {
+                case SERVER_GET_NAMES -> {
                     List<String> servers = new ArrayList<>(server.getConnectedClients().keySet());
                     return DataPack.getResponse(dataPack)
                             .withType(DataPack.messageType.RESULT_GET_NAMES)
@@ -491,7 +491,7 @@ public class Connection {
     private void startUpdateServersTask() {
         if (running) plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, task -> {
             try {
-                DataPack dataPack = DataPack.build().withType(DataPack.messageType.SEVER_GET_NAMES);
+                DataPack dataPack = DataPack.build().withType(DataPack.messageType.SERVER_GET_NAMES);
                 onlineServers = request(dataPack).getMessage().split(";");
 
             } catch (Exception e) {

@@ -192,7 +192,7 @@ public class DataPack {
         GET_MONEY,
         PUT_MONEY,
 
-        SEVER_GET_NAMES,
+        SERVER_GET_NAMES,
         RESULT_GET_NAMES,
 
         RESULT_HELLO,
