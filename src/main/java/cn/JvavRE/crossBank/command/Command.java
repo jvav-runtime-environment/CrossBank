@@ -145,7 +145,7 @@ public class Command implements CommandExecutor {
             return;
         }
 
-        Message.sendMessage(sender, String.join(" ", plugin.getConnManager().getOnlineServers()));
+        Message.sendMessage(sender, "当前在线服务器: "+String.join(", ", plugin.getConnManager().getOnlineServers()));
     }
 
     private boolean isDigit(String string) {
