@@ -5,6 +5,7 @@ import cn.JvavRE.crossBank.config.Config;
 import cn.JvavRE.crossBank.connection.DataPack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -23,6 +24,8 @@ public class Command implements CommandExecutor {
             switch (args[0]) {
                 case "ping" -> onPing(sender, args);
                 case "reload" -> onReload(sender, args);
+                case "withdraw" -> onWithdraw(sender, args);
+                case "deposit" -> onDeposit(sender, args);
             }
         }
 
@@ -75,13 +78,13 @@ public class Command implements CommandExecutor {
         String serverName = args[1];
         String amount = args[2];
 
-        if (!player.hasPermission("cbank.withdraw." + serverName)) {
+        if (!player.hasPermission("cbank.transmit." + serverName)) {
             sendErrorMsg(player, "你没有 " + serverName + " 的权限");
             return;
         }
 
         if (!isDigit(amount)) {
-            player.sendMessage("输入的不是有效数值");
+            sendErrorMsg(player,"输入的不是有效数值");
             return;
         }
 
@@ -105,7 +108,58 @@ public class Command implements CommandExecutor {
 
 
     private void onDeposit(CommandSender sender, String[] args) {
+        // cbank deposit <server> <amount>
+        if (!(sender instanceof Player player)) {
+            sendErrorMsg(sender, "控制台爬");
+            return;
+        }
 
+        if (!player.hasPermission("cbank.deposit")) {
+            sendErrorMsg(player, "你没有权限");
+            return;
+        }
+
+        if (args.length != 3) {
+            sendErrorMsg(player, "用法错误");
+            return;
+        }
+
+        String serverName = args[1];
+        String amount = args[2];
+
+        if (!player.hasPermission("cbank.transmit." + serverName)) {
+            sendErrorMsg(player, "你没有 " + serverName + " 的权限");
+            return;
+        }
+
+        if (!isDigit(amount)) {
+            sendErrorMsg(player,"输入的不是有效数值");
+            return;
+        }
+
+        EconomyResponse ecoResponse = plugin.getEcoManager().takePlayerMoney(player, Double.parseDouble(amount));
+        if (!ecoResponse.transactionSuccess()){
+            sendErrorMsg(player, "扣款失败: "+ecoResponse.errorMessage);
+            return;
+        }
+
+        plugin.getServer().getAsyncScheduler().runNow(plugin, task -> {
+            DataPack dataPack = DataPack.build()
+                    .withType(DataPack.messageType.PUT_MONEY)
+                    .withPlayer(player)
+                    .withMessage(amount);
+
+            DataPack response = plugin.getConnManager().request(dataPack);
+            switch (response.getType()) {
+                case RESULT_SUCCEED -> sendSuccessMsg(player, "成功转移 " + amount);
+                case RESULT_FAILED -> {
+                    sendErrorMsg(player, "转移失败: " + dataPack.getMessage());
+                    plugin.getEcoManager().givePlayerMoney(player, Double.parseDouble(amount));
+                    sendErrorMsg(player, "数额已归还");
+                }
+                case RESULT_INTERNAL_ERROR -> sendErrorMsg(player, "发生内部错误: " + dataPack.getMessage());
+            }
+        });
     }
 
     private boolean isDigit(String string) {
