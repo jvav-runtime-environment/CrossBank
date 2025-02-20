@@ -52,7 +52,7 @@ public class Command implements CommandExecutor {
 
         plugin.getServer().getAsyncScheduler().runNow(plugin, (scheduledTask) -> {
             DataPack result = plugin.getConnManager().request(dataPack);
-            sender.sendMessage("返回的消息: " + result.getMessage());
+            Message.sendMessage(sender, "返回的消息: " + result.getMessage());
         });
     }
 
@@ -60,6 +60,7 @@ public class Command implements CommandExecutor {
         // cbank reload
         if (!sender.hasPermission("cbank.reload")) {
             Message.sendErrorMsg(sender, "你没有权限");
+            return;
         }
 
         Config.reload();

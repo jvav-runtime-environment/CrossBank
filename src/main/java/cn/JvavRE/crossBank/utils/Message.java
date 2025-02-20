@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 
 public class Message {
     private static final TextColor successColor = TextColor.color(0xFF00);
-    private static final TextColor errorColor = TextColor.color(0x9B0000);
+    private static final TextColor errorColor = TextColor.color(0xC80000);
     private static final TextColor msgColor = TextColor.color(0xFFFF);
 
 
