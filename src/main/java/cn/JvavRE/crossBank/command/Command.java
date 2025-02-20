@@ -58,9 +58,11 @@ public class Command implements CommandExecutor {
 
     private void onReload(CommandSender sender, String[] args) {
         // cbank reload
-        if (sender.hasPermission("cbank.reload")) {
-            Config.reload();
+        if (!sender.hasPermission("cbank.reload")) {
+            Message.sendErrorMsg(sender, "你没有权限");
         }
+
+        Config.reload();
     }
 
     private void onWithdraw(CommandSender sender, String[] args) {
