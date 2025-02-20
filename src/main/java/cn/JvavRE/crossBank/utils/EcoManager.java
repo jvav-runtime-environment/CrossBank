@@ -29,7 +29,8 @@ public class EcoManager {
             DataPack dataPack = DataPack.build()
                     .withType(DataPack.messageType.PUT_MONEY)
                     .withPlayer(player)
-                    .withMessage(String.valueOf(amount));
+                    .withMessage(String.valueOf(amount))
+                    .withTargetServer(targetServer);
 
             DataPack response = plugin.getConnManager().request(dataPack);
             switch (response.getType()) {
@@ -49,7 +50,8 @@ public class EcoManager {
             DataPack dataPack = DataPack.build()
                     .withType(DataPack.messageType.GET_MONEY)
                     .withPlayer(player)
-                    .withMessage(String.valueOf(amount));
+                    .withMessage(String.valueOf(amount))
+                    .withTargetServer(targetServer);
 
             DataPack response = plugin.getConnManager().request(dataPack);
             switch (response.getType()) {

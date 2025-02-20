@@ -21,14 +21,14 @@ public class Message {
         TextColor start = TextColor.color(0x96FF);
         TextColor end = TextColor.color(0xFF96);
 
-        TextComponent result = Component.text("");
+        TextComponent.Builder result = Component.text();
         for (int i = 0; i < headerString.length(); i++) {
             float t = (float) i / (headerString.length() - 1);
 
             result.append(Component.text(headerString.charAt(i)).color(TextColor.lerp(t, start, end)));
         }
 
-        return result.append(Component.text(" ")).decorate(TextDecoration.BOLD);
+        return result.append(Component.text(" ")).decorate(TextDecoration.BOLD).build();
     }
 
     public static void sendErrorMsg(CommandSender sender, String message) {

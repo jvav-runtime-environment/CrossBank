@@ -10,3 +10,14 @@ commands:
   cbank:
     description: CrossBank main command
     usage: /cbank ...
+permissions:
+  cbank.ping:
+    default: op
+  cbank.reload:
+    default: op
+  cbank.withdraw:
+    default: true
+  cbank.deposit:
+    default: true
+  cbank.transmit.*:
+    default: true
