@@ -22,6 +22,7 @@ public class Command implements CommandExecutor {
         if (args.length > 1) {
             switch (args[0]) {
                 case "ping" -> onPing(sender, args);
+                case "online" -> onOnline(sender, args);
                 case "reload" -> onReload(sender, args);
                 case "withdraw" -> onWithdraw(sender, args);
                 case "deposit" -> onDeposit(sender, args);
@@ -99,7 +100,6 @@ public class Command implements CommandExecutor {
         plugin.getEcoManager().startCrossWithdraw(player, serverName, Double.parseDouble(amount));
     }
 
-
     private void onDeposit(CommandSender sender, String[] args) {
         // cbank deposit <server> <amount>
         if (!(sender instanceof Player player)) {
@@ -137,6 +137,15 @@ public class Command implements CommandExecutor {
         }
 
         plugin.getEcoManager().startCrossDeposit(player, serverName, Double.parseDouble(amount));
+    }
+
+    private void onOnline(CommandSender sender, String[] args){
+        if(!sender.hasPermission("cbank.online")){
+            Message.sendErrorMsg(sender, "你没有权限");
+            return;
+        }
+
+        Message.sendMessage(sender, String.join(" ", plugin.getConnManager().getOnlineServers()));
     }
 
     private boolean isDigit(String string) {
