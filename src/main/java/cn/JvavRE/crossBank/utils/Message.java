@@ -11,13 +11,13 @@ import org.bukkit.command.CommandSender;
 public class Message {
     private static final TextColor successColor = TextColor.color(0xFF00);
     private static final TextColor errorColor = TextColor.color(0x9B0000);
-    private static final TextColor msgColor= TextColor.color(0xFFFF);
+    private static final TextColor msgColor = TextColor.color(0xFFFF);
 
     private static final TextComponent header = Component.text("[CrossBank] ")
             .color(TextColor.color(0xFF9B))
             .decorate(TextDecoration.BOLD);
 
-    public static void sendErrorMsg(CommandSender sender, String message){
+    public static void sendErrorMsg(CommandSender sender, String message) {
         sender.sendMessage(Component.text()
                 .append(header)
                 .append(Component.text(message)
@@ -27,7 +27,7 @@ public class Message {
         );
     }
 
-    public static void sendSuccessMsg(CommandSender sender, String message){
+    public static void sendSuccessMsg(CommandSender sender, String message) {
         sender.sendMessage(Component.text()
                 .append(header)
                 .append(Component.text(message)
@@ -37,7 +37,7 @@ public class Message {
         );
     }
 
-    public static void sendMessage(CommandSender sender, String message){
+    public static void sendMessage(CommandSender sender, String message) {
         sender.sendMessage(Component.text()
                 .append(header)
                 .append(Component.text(message)
@@ -47,7 +47,7 @@ public class Message {
         );
     }
 
-    public static void sendMessage(CommandSender sender, Component component){
+    public static void sendMessage(CommandSender sender, Component component) {
         sender.sendMessage(Component.text().append(header).append(component).build());
     }
 }

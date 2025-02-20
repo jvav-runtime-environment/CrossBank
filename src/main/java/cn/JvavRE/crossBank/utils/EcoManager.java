@@ -24,7 +24,7 @@ public class EcoManager {
         economy = rsp.getProvider();
     }
 
-    public void startCrossDeposit(Player player, String targetServer, Double amount){
+    public void startCrossDeposit(Player player, String targetServer, Double amount) {
         plugin.getServer().getAsyncScheduler().runNow(plugin, task -> {
             DataPack dataPack = DataPack.build()
                     .withType(DataPack.messageType.PUT_MONEY)
@@ -44,7 +44,7 @@ public class EcoManager {
         });
     }
 
-    public void startCrossWithdraw(Player player, String targetServer, Double amount){
+    public void startCrossWithdraw(Player player, String targetServer, Double amount) {
         plugin.getServer().getAsyncScheduler().runNow(plugin, task -> {
             DataPack dataPack = DataPack.build()
                     .withType(DataPack.messageType.GET_MONEY)

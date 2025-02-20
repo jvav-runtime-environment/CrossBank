@@ -3,8 +3,7 @@ package cn.JvavRE.crossBank.command;
 import cn.JvavRE.crossBank.CrossBank;
 import cn.JvavRE.crossBank.config.Config;
 import cn.JvavRE.crossBank.connection.DataPack;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
+import cn.JvavRE.crossBank.utils.Message;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,21 +33,27 @@ public class Command implements CommandExecutor {
 
     private void onPing(CommandSender sender, String[] args) {
         // cbank ping <server> <msg>
-        if (sender.hasPermission("cbank.ping")) {
-            if (args.length == 3) {
-                String serverName = args[1];
-                String message = args[2];
-                DataPack dataPack = DataPack.build()
-                        .withType(DataPack.messageType.HELLO)
-                        .withMessage(message)
-                        .withTargetServer(serverName);
-
-                plugin.getServer().getAsyncScheduler().runNow(plugin, (scheduledTask) -> {
-                    DataPack result = plugin.getConnManager().request(dataPack);
-                    sender.sendMessage("返回的消息: " + result.getMessage());
-                });
-            }
+        if (!sender.hasPermission("cbank.ping")) {
+            Message.sendErrorMsg(sender, "你没有权限");
+            return;
         }
+
+        if (args.length != 3) {
+            Message.sendErrorMsg(sender, "用法错误");
+            return;
+        }
+
+        String serverName = args[1];
+        String message = args[2];
+        DataPack dataPack = DataPack.build()
+                .withType(DataPack.messageType.HELLO)
+                .withMessage(message)
+                .withTargetServer(serverName);
+
+        plugin.getServer().getAsyncScheduler().runNow(plugin, (scheduledTask) -> {
+            DataPack result = plugin.getConnManager().request(dataPack);
+            sender.sendMessage("返回的消息: " + result.getMessage());
+        });
     }
 
     private void onReload(CommandSender sender, String[] args) {
@@ -61,17 +66,17 @@ public class Command implements CommandExecutor {
     private void onWithdraw(CommandSender sender, String[] args) {
         // cbank withdraw <server> <amount>
         if (!(sender instanceof Player player)) {
-            sendErrorMsg(sender, "控制台爬");
+            Message.sendErrorMsg(sender, "控制台爬");
             return;
         }
 
         if (!player.hasPermission("cbank.withdraw")) {
-            sendErrorMsg(player, "你没有权限");
+            Message.sendErrorMsg(player, "你没有权限");
             return;
         }
 
         if (args.length != 3) {
-            sendErrorMsg(player, "用法错误");
+            Message.sendErrorMsg(player, "用法错误");
             return;
         }
 
@@ -79,33 +84,33 @@ public class Command implements CommandExecutor {
         String amount = args[2];
 
         if (!player.hasPermission("cbank.transmit." + serverName)) {
-            sendErrorMsg(player, "你没有 " + serverName + " 的权限");
+            Message.sendErrorMsg(player, "你没有 " + serverName + " 的权限");
             return;
         }
 
         if (!isDigit(amount)) {
-            sendErrorMsg(player,"输入的不是有效数值");
+            Message.sendErrorMsg(player, "输入的不是有效数值");
             return;
         }
 
-
+        plugin.getEcoManager().startCrossWithdraw(player, serverName, Double.parseDouble(amount));
     }
 
 
     private void onDeposit(CommandSender sender, String[] args) {
         // cbank deposit <server> <amount>
         if (!(sender instanceof Player player)) {
-            sendErrorMsg(sender, "控制台爬");
+            Message.sendErrorMsg(sender, "控制台爬");
             return;
         }
 
         if (!player.hasPermission("cbank.deposit")) {
-            sendErrorMsg(player, "你没有权限");
+            Message.sendErrorMsg(player, "你没有权限");
             return;
         }
 
         if (args.length != 3) {
-            sendErrorMsg(player, "用法错误");
+            Message.sendErrorMsg(player, "用法错误");
             return;
         }
 
@@ -113,22 +118,22 @@ public class Command implements CommandExecutor {
         String amount = args[2];
 
         if (!player.hasPermission("cbank.transmit." + serverName)) {
-            sendErrorMsg(player, "你没有 " + serverName + " 的权限");
+            Message.sendErrorMsg(player, "你没有 " + serverName + " 的权限");
             return;
         }
 
         if (!isDigit(amount)) {
-            sendErrorMsg(player,"输入的不是有效数值");
+            Message.sendErrorMsg(player, "输入的不是有效数值");
             return;
         }
 
         EconomyResponse ecoResponse = plugin.getEcoManager().takePlayerMoney(player, Double.parseDouble(amount));
-        if (!ecoResponse.transactionSuccess()){
-            sendErrorMsg(player, "扣款失败: "+ecoResponse.errorMessage);
+        if (!ecoResponse.transactionSuccess()) {
+            Message.sendErrorMsg(player, "扣款失败: " + ecoResponse.errorMessage);
             return;
         }
 
-        plugin.getEcoManager().startCrossDeposit(player, serverName,Double.parseDouble(amount));
+        plugin.getEcoManager().startCrossDeposit(player, serverName, Double.parseDouble(amount));
     }
 
     private boolean isDigit(String string) {
@@ -138,13 +143,5 @@ public class Command implements CommandExecutor {
         } catch (NumberFormatException e) {
             return false;
         }
-    }
-
-    private void sendErrorMsg(CommandSender sender, String message) {
-        sender.sendMessage(Component.text(message).color(TextColor.color(0x9B0000)));
-    }
-
-    private void sendSuccessMsg(CommandSender sender, String message) {
-        sender.sendMessage(Component.text(message).color(TextColor.color(0xFF00)));
     }
 }
