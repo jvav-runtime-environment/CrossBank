@@ -34,7 +34,7 @@ public class Connection {
     }
 
     protected DataPack processServerDataPack(DataPack dataPack) {
-        plugin.getLogger().info("服务端收到数据包: " + dataPack);
+        plugin.getLogger().info("服务端收到数据包: " + dataPack.getType());
         if (dataPack.isForServer()) {
             switch (dataPack.getType()) {
                 case SERVER_GET_NAMES -> {

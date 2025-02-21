@@ -10,6 +10,7 @@ public class Config {
     private static final String DefaultUIContent = "<color:#0096FF>⦿ </color><color:#00FF9B>{server}</color><color:#0096FF>  余额: </color><color:#FFD700>{amount}</color><newline><color:#0096FF>├─ </color>{action}";
     private static final String DefaultUICurrentServer = "<green>你所在服务器</green>";
     private static final String DefaultUIServerUnavailable = "<red>服务器不可用</red>";
+    private static final String DefaultUILoadingData = "<color:#0096FF>正在获取数据, 请稍后再试(1min)</color>";
     private static final String DefaultUIButtonSeparator = "<color:#0096FF> | </color>";
     private static final String DefaultUIWithdrawButton = "<green>取款 <click:run_command:'/cbank withdrawEx {server}'><hover:show_text:'<color:#0096FF>点击 <green>取款</green><newline>目标服务器: {server}<newline>在聊天栏输入金额</color>'>[↓]</hover></click></green>";
     private static final String DefaultUIDepositButton = "<red>存款 <click:run_command:'/cbank depositEx {server}'><hover:show_text:'<color:#0096FF>点击 <red>取款</red><newline>目标服务器: {server}<newline>在聊天栏输入金额</color>'>[↑]</hover></click></red>";
@@ -22,6 +23,7 @@ public class Config {
     public static String UIContent;
     public static String UICurrentServer;
     public static String UIServerUnavailable;
+    public static String UILoadingData;
     public static String UIButtonSeparator;
     public static String UIWithdrawButton;
     public static String UIDepositButton;
@@ -40,6 +42,7 @@ public class Config {
         UIHeader = configuration.getString("ui-header", DefaultUIHeader);
         UIContent = configuration.getString("ui-content", DefaultUIContent);
         UICurrentServer = configuration.getString("ui-current-server", DefaultUICurrentServer);
+        UILoadingData = configuration.getString("ui-loading-data", DefaultUILoadingData);
         UIServerUnavailable = configuration.getString("ui-server-unavailable", DefaultUIServerUnavailable);
         UIButtonSeparator = configuration.getString("ui-button-separator", DefaultUIButtonSeparator);
         UIWithdrawButton = configuration.getString("ui-withdraw-button", DefaultUIWithdrawButton);
@@ -65,6 +68,10 @@ public class Config {
 
     public static String getUICurrentServer() {
         return UICurrentServer;
+    }
+
+    public static String getUILoadingData() {
+        return UILoadingData;
     }
 
     public static String getUIButtonSeparator() {

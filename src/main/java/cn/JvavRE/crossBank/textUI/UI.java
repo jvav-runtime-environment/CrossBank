@@ -173,8 +173,14 @@ public class UI {
             ui.append(Config.getUIHeader());
             ui.append("<newline> ");
 
-            for (String content : getContents(player)) {
-                ui.append(content);
+            List<String> contents = getContents(player);
+            if (!contents.isEmpty()) {
+                for (String content : contents) {
+                    ui.append(content);
+                    ui.append("<newline> ");
+                }
+            } else {
+                ui.append(Config.getUILoadingData());
                 ui.append("<newline> ");
             }
 
