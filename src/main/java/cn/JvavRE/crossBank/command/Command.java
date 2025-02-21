@@ -26,13 +26,16 @@ public class Command implements CommandExecutor {
                 case "reload" -> onReload(sender, args);
                 case "withdraw" -> onWithdraw(sender, args);
                 case "deposit" -> onDeposit(sender, args);
+                case "ui" -> onUIOpen(sender, args);
+                default -> Message.sendErrorMsg(sender, "用法错误");
             }
-        }else {
-            Message.sendErrorMsg(sender,"用法错误");
+        } else {
+            Message.sendErrorMsg(sender, "用法错误");
         }
 
         return true;
     }
+
 
     private void onPing(CommandSender sender, String[] args) {
         // cbank ping <server> <msg>
@@ -67,6 +70,20 @@ public class Command implements CommandExecutor {
         }
 
         Config.reload();
+    }
+
+    private void onUIOpen(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) {
+            Message.sendErrorMsg(sender, "控制台爬");
+            return;
+        }
+
+        if (!player.hasPermission("cbank.openUI")) {
+            Message.sendErrorMsg(player, "你没有权限");
+            return;
+        }
+
+        plugin.getUIManager().displayTo(player);
     }
 
     private void onWithdraw(CommandSender sender, String[] args) {

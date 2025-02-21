@@ -3,6 +3,7 @@ package cn.JvavRE.crossBank;
 import cn.JvavRE.crossBank.command.Command;
 import cn.JvavRE.crossBank.config.Config;
 import cn.JvavRE.crossBank.connection.Connection;
+import cn.JvavRE.crossBank.textUI.UI;
 import cn.JvavRE.crossBank.utils.EcoManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +12,12 @@ import java.util.Objects;
 public final class CrossBank extends JavaPlugin {
     private Connection connManager;
     private EcoManager ecoManager;
+    private UI UIManager;
+
+
+    public UI getUIManager() {
+        return UIManager;
+    }
 
     public Connection getConnManager() {
         return connManager;
@@ -27,6 +34,7 @@ public final class CrossBank extends JavaPlugin {
 
         connManager = new Connection(this);
         ecoManager = new EcoManager(this);
+        UIManager = new UI(this);
 
         Objects.requireNonNull(getCommand("cbank")).setExecutor(new Command(this));
 
