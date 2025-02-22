@@ -112,7 +112,7 @@ public class Command implements CommandExecutor {
         String amount = args[2];
 
         if (!player.hasPermission("cbank.transmit." + serverName)) {
-            Message.sendErrorMsg(player, "你没有 " + serverName + " 取款的权限");
+            Message.sendErrorMsg(player, "你没有 " + serverName + " 存/取款的权限");
             return;
         }
 
@@ -140,7 +140,7 @@ public class Command implements CommandExecutor {
         String amount = args[2];
 
         if (!player.hasPermission("cbank.transmit." + serverName)) {
-            Message.sendErrorMsg(player, "你没有 " + serverName + " 存款的权限");
+            Message.sendErrorMsg(player, "你没有 " + serverName + " 存/取款的权限");
             return;
         }
 
