@@ -4,7 +4,8 @@ main: cn.JvavRE.crossBank.CrossBank
 api-version: '1.21'
 author: Jvav_Runtime_Environment
 description: 跨服银行插件
-softdepend:
+support-folia: true
+depend:
   - Vault
 commands:
   cbank:

@@ -17,7 +17,7 @@ public class EcoManager {
 
         RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
-            plugin.getLogger().warning("未找到提供经济的插件, 插件无法运行");
+            plugin.getLogger().warning("未找到提供经济的插件, CrossBank无法运行");
             plugin.setEnabled(false);
             return;
         }
