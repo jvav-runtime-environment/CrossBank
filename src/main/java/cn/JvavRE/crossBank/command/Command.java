@@ -111,7 +111,7 @@ public class Command implements CommandExecutor {
         String serverName = args[1];
         String amount = args[2];
 
-        if (!player.hasPermission("cbank.withdraw." + serverName)) {
+        if (!player.hasPermission("cbank.transmit." + serverName)) {
             Message.sendErrorMsg(player, "你没有 " + serverName + " 取款的权限");
             return;
         }
@@ -139,7 +139,7 @@ public class Command implements CommandExecutor {
         String serverName = args[1];
         String amount = args[2];
 
-        if (!player.hasPermission("cbank.deposit." + serverName)) {
+        if (!player.hasPermission("cbank.transmit." + serverName)) {
             Message.sendErrorMsg(player, "你没有 " + serverName + " 存款的权限");
             return;
         }

@@ -15,14 +15,7 @@ permissions:
     default: op
   cbank.reload:
     default: op
-  cbank.withdraw:
-    default: true
-  cbank.deposit:
-    default: true
   cbank.openUI:
     default: true
   cbank.transmit:
     default: true
-    children:
-      cbank.withdraw: true
-      cbank.deposit: true
