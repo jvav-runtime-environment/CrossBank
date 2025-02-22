@@ -36,6 +36,10 @@ public class Config {
         loadConfig();
     }
 
+    public static void reload() {
+        loadConfig();
+    }
+
     private static void loadConfig() {
         plugin.saveDefaultConfig();
         FileConfiguration configuration = plugin.getConfig();
@@ -56,6 +60,11 @@ public class Config {
         UIWithdrawButton = configuration.getString("ui-withdraw-button", DefaultUIWithdrawButton);
         UIDepositButton = configuration.getString("ui-deposit-button", DefaultUIDepositButton);
         UIFooter = configuration.getString("ui-footer", DefaultUIFooter);
+
+        // 如果主机ip不是localhost则一定不作为服务端启动
+        if(!(host.equals("localhost") || host.equals("127.0.0.1"))){
+            isServer= false;
+        }
 
         // 默认随机UUID
         if (serverName.equals("random")) {
@@ -99,7 +108,6 @@ public class Config {
         return UIFooter;
     }
 
-
     public static String getServerName() {
         return serverName;
     }
@@ -110,10 +118,5 @@ public class Config {
 
     public static String getHost() {
         return host;
-    }
-
-
-    public static void reload() {
-        loadConfig();
     }
 }

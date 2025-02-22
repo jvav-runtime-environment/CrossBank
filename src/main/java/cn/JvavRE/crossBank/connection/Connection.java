@@ -158,4 +158,10 @@ public class Connection {
         server.close();
         client.close();
     }
+
+    public void reload(){
+        server.close();
+        client.close();
+        start();
+    }
 }

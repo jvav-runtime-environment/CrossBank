@@ -68,13 +68,18 @@ public class Command implements CommandExecutor {
     }
 
     private void onReload(CommandSender sender, String[] args) {
-        // cbank reload
+        // cbank reload (all)
         if (!sender.hasPermission("cbank.reload")) {
             Message.sendErrorMsg(sender, "你没有权限");
             return;
         }
 
         Config.reload();
+
+        // all参数可以重新加载连接
+        if ((args.length == 2)&&args[1].equals("all")){
+            plugin.getConnManager().reload();
+        }
     }
 
     private void onUIOpen(CommandSender sender, String[] args) {
