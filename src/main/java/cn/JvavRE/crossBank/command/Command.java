@@ -177,7 +177,7 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
-        Conversation conv = plugin.getInputManager().getConvesation(player);
+        Conversation conv = plugin.getInputManager().getConversation(player);
         conv.getContext().setSessionData("server", serverName);
         conv.getContext().setSessionData("cmd", "withdraw");
         conv.begin();
@@ -197,7 +197,7 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
-        Conversation conv = plugin.getInputManager().getConvesation(player);
+        Conversation conv = plugin.getInputManager().getConversation(player);
         conv.getContext().setSessionData("server", serverName);
         conv.getContext().setSessionData("cmd", "deposit");
         conv.begin();

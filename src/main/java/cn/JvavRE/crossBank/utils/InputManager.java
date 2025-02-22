@@ -14,7 +14,7 @@ public class InputManager {
         this.plugin = plugin;
     }
 
-    public Conversation getConvesation(Player player) {
+    public Conversation getConversation(Player player) {
         ConversationFactory factory = new ConversationFactory(plugin)
                 .withModality(false)
                 .withTimeout(60)
