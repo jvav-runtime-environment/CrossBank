@@ -41,7 +41,6 @@ public class Command implements CommandExecutor {
         return true;
     }
 
-
     private void onPing(CommandSender sender, String[] args) {
         // cbank ping <server> <msg>
         if (!sender.hasPermission("cbank.ping")) {
@@ -77,7 +76,7 @@ public class Command implements CommandExecutor {
         Config.reload();
 
         // all参数可以重新加载连接
-        if ((args.length == 2)&&args[1].equals("all")){
+        if ((args.length == 2) && args[1].equals("all")) {
             plugin.getConnManager().reload();
         }
     }

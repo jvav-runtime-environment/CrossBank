@@ -159,7 +159,7 @@ public class Connection {
         client.close();
     }
 
-    public void reload(){
+    public void reload() {
         server.close();
         client.close();
         start();

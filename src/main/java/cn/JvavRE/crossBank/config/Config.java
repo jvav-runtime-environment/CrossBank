@@ -62,8 +62,8 @@ public class Config {
         UIFooter = configuration.getString("ui-footer", DefaultUIFooter);
 
         // 如果主机ip不是localhost则一定不作为服务端启动
-        if(!(host.equals("localhost") || host.equals("127.0.0.1"))){
-            isServer= false;
+        if (!(host.equals("localhost") || host.equals("127.0.0.1"))) {
+            isServer = false;
         }
 
         // 默认随机UUID

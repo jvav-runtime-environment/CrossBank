@@ -35,7 +35,10 @@ public class EcoManager {
 
             DataPack response = plugin.getConnManager().request(dataPack);
             switch (response.getType()) {
-                case RESULT_SUCCEED -> Message.sendSuccessMsg(player, "成功转移 " + amount + "$");
+                case RESULT_SUCCEED -> {
+                    Message.sendSuccessMsg(player, "成功转移 " + amount + "$");
+                    plugin.getLogger().info("资金转移: " + response.getMessage() + " " + response.getTargetServer() + " -> " + response.getTargetServer());
+                }
                 case RESULT_FAILED -> {
                     Message.sendErrorMsg(player, "转移失败: " + response.getMessage());
                     plugin.getEcoManager().givePlayerMoney(player, amount);
@@ -60,6 +63,7 @@ public class EcoManager {
                 case RESULT_SUCCEED -> {
                     plugin.getEcoManager().givePlayerMoney(player, amount);
                     Message.sendSuccessMsg(player, "成功转移 " + amount + "$");
+                    plugin.getLogger().info("资金转移: " + response.getMessage() + " " + response.getSourceServer() + " -> " + response.getTargetServer());
                 }
                 case RESULT_FAILED -> Message.sendErrorMsg(player, "转移失败: " + response.getMessage());
                 case RESULT_INTERNAL_ERROR -> Message.sendErrorMsg(player, "发生内部错误: " + response.getMessage());

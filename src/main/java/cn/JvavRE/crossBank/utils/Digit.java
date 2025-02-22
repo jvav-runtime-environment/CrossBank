@@ -1,7 +1,7 @@
 package cn.JvavRE.crossBank.utils;
 
 public class Digit {
-    public static boolean isDigit(String s){
+    public static boolean isDigit(String s) {
         try {
             Double.parseDouble(s);
             return true;
