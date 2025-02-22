@@ -30,15 +30,23 @@ public class Config {
     public static String UIFooter;
     private static CrossBank plugin;
 
+    // 注入plugin, 必须首先调用否则无法获取配置
+    public static void init(CrossBank plugin) {
+        Config.plugin = plugin;
+        loadConfig();
+    }
+
     private static void loadConfig() {
         plugin.saveDefaultConfig();
         FileConfiguration configuration = plugin.getConfig();
 
+        // 网络相关配置
         host = configuration.getString("server-host", "localhost");
         port = configuration.getInt("server-port", 11891);
         isServer = configuration.getBoolean("run-as-server", true);
         serverName = configuration.getString("server-name", UUID.randomUUID().toString());
 
+        // 自定义ui
         UIHeader = configuration.getString("ui-header", DefaultUIHeader);
         UIContent = configuration.getString("ui-content", DefaultUIContent);
         UICurrentServer = configuration.getString("ui-current-server", DefaultUICurrentServer);
@@ -49,6 +57,7 @@ public class Config {
         UIDepositButton = configuration.getString("ui-deposit-button", DefaultUIDepositButton);
         UIFooter = configuration.getString("ui-footer", DefaultUIFooter);
 
+        // 默认随机UUID
         if (serverName.equals("random")) {
             serverName = UUID.randomUUID().toString();
         }
@@ -90,10 +99,6 @@ public class Config {
         return UIFooter;
     }
 
-    public static void init(CrossBank plugin) {
-        Config.plugin = plugin;
-        loadConfig();
-    }
 
     public static String getServerName() {
         return serverName;

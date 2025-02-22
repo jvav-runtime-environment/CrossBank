@@ -49,6 +49,7 @@ public class Server {
         }
     }
 
+    // 处理客户端连接方法
     private void handleClientConnection(Socket socket) {
         String clientId = null;
         try {
@@ -83,11 +84,9 @@ public class Server {
         }
     }
 
-
     public Map<String, Socket> getConnectedClients() {
         return connectedClients;
     }
-
 
     private void sendDataToClient(DataPack dataPack) {
         Socket target = connectedClients.get(dataPack.getTargetServer());

@@ -33,8 +33,8 @@ public class Connection {
         startUpdateServersTask();
     }
 
+    // 为server类处理数据包接收
     protected DataPack processServerDataPack(DataPack dataPack) {
-        plugin.getLogger().info("服务端收到数据包: " + dataPack.getType());
         if (dataPack.isForServer()) {
             switch (dataPack.getType()) {
                 case SERVER_GET_NAMES -> {
@@ -56,6 +56,7 @@ public class Connection {
         }
     }
 
+    // 为client类处理数据包接收
     protected DataPack processClientDataPack(DataPack dataPack) {
         if (dataPack.isResult()) {
             CompletableFuture<DataPack> future = dataPackFutures.remove(dataPack.getUUID());
@@ -100,6 +101,7 @@ public class Connection {
         }
     }
 
+    // 启动连接
     protected void start() {
         if (running) Bukkit.getServer().getAsyncScheduler().runDelayed(plugin, (task) -> {
             if (Config.isServer && server.isClosed()) {
@@ -113,6 +115,8 @@ public class Connection {
         }, 1, TimeUnit.SECONDS);
     }
 
+    // 从服务端获取在线服务器列表
+    // TODO: 当服务端启动成功时直接获取数据(优化)
     private void startUpdateServersTask() {
         if (running) plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, task -> {
             try {
@@ -135,6 +139,7 @@ public class Connection {
         return onlineServers;
     }
 
+    // 向服务端发起请求
     public DataPack request(DataPack dataPack) {
         CompletableFuture<DataPack> future = new CompletableFuture<>();
         dataPackFutures.put(dataPack.getUUID(), future);

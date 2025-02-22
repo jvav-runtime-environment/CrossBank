@@ -59,7 +59,6 @@ public class Client {
         }
     }
 
-
     protected void sendDataToServer(DataPack dataPack) {
         if (out == null) return;
 

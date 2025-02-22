@@ -14,15 +14,13 @@ public class InputManager {
         this.plugin = plugin;
     }
 
-    public Conversation startPromote(Player player) {
+    public Conversation getConvesation(Player player) {
         ConversationFactory factory = new ConversationFactory(plugin)
                 .withModality(false)
                 .withTimeout(60)
                 .withEscapeSequence("cancel")
                 .addConversationAbandonedListener(event -> {
-                    if (!event.gracefulExit()) {
-                        Message.sendErrorMsg(player, "输入已取消");
-                    }
+                    if (!event.gracefulExit()) Message.sendMessage(player, "输入已取消");
                 })
                 .withFirstPrompt(new AmountPromote());
 
@@ -31,15 +29,9 @@ public class InputManager {
 }
 
 class AmountPromote extends ValidatingPrompt {
-
     @Override
     protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
-        try {
-            double amount = Double.parseDouble(s);
-            if (amount > 0) return true;
-        } catch (NumberFormatException ignored) {
-        }
-        return false;
+        return Digit.isDigit(s) && Double.parseDouble(s) > 0;
     }
 
     @Override

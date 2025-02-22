@@ -3,6 +3,7 @@ package cn.JvavRE.crossBank.command;
 import cn.JvavRE.crossBank.CrossBank;
 import cn.JvavRE.crossBank.config.Config;
 import cn.JvavRE.crossBank.connection.DataPack;
+import cn.JvavRE.crossBank.utils.Digit;
 import cn.JvavRE.crossBank.utils.Message;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
@@ -33,6 +34,7 @@ public class Command implements CommandExecutor {
                 default -> Message.sendErrorMsg(sender, "用法错误");
             }
         } else {
+            // TODO: 增加用法提示, 增加tab提示
             Message.sendErrorMsg(sender, "用法错误");
         }
 
@@ -114,7 +116,7 @@ public class Command implements CommandExecutor {
             return;
         }
 
-        if (!isDigit(amount)) {
+        if (!Digit.isDigit(amount)) {
             Message.sendErrorMsg(player, "输入的不是有效数值");
             return;
         }
@@ -147,7 +149,7 @@ public class Command implements CommandExecutor {
             return;
         }
 
-        if (!isDigit(amount)) {
+        if (!Digit.isDigit(amount)) {
             Message.sendErrorMsg(player, "输入的不是有效数值");
             return;
         }
@@ -161,6 +163,7 @@ public class Command implements CommandExecutor {
         plugin.getEcoManager().startCrossDeposit(player, serverName, Double.parseDouble(amount));
     }
 
+    // UI调用方法获取输入
     private void onWithdrawEx(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
             Message.sendErrorMsg(sender, "控制台爬");
@@ -174,12 +177,13 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
-        Conversation conv = plugin.getInputManager().startPromote(player);
+        Conversation conv = plugin.getInputManager().getConvesation(player);
         conv.getContext().setSessionData("server", serverName);
         conv.getContext().setSessionData("cmd", "withdraw");
         conv.begin();
     }
 
+    // UI调用方法获取输入
     private void onDepositEx(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
             Message.sendErrorMsg(sender, "控制台爬");
@@ -193,7 +197,7 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
-        Conversation conv = plugin.getInputManager().startPromote(player);
+        Conversation conv = plugin.getInputManager().getConvesation(player);
         conv.getContext().setSessionData("server", serverName);
         conv.getContext().setSessionData("cmd", "deposit");
         conv.begin();
@@ -206,14 +210,5 @@ public class Command implements CommandExecutor {
         }
 
         Message.sendMessage(sender, "当前在线服务器: " + String.join(", ", plugin.getConnManager().getOnlineServers()));
-    }
-
-    private boolean isDigit(String string) {
-        try {
-            Double.parseDouble(string);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }

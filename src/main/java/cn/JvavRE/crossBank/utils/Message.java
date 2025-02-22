@@ -12,14 +12,12 @@ public class Message {
     private static final TextColor errorColor = TextColor.color(0xC80000);
     private static final TextColor msgColor = TextColor.color(0xFFFF);
 
-    private static final Component header = MiniMessage.miniMessage().deserialize("<gradient:#0096FF:#00ff96>[CrossBank]</gradient>");
+    private static final Component header = MiniMessage.miniMessage().deserialize("<gradient:#0096FF:#00ff96>[CrossBank] </gradient>");
 
     public static void sendErrorMsg(CommandSender sender, String message) {
         sender.sendMessage(Component.text()
                 .append(header)
-                .append(Component.text(message)
-                        .color(errorColor)
-                )
+                .append(Component.text(message).color(errorColor))
                 .build()
         );
     }
@@ -27,9 +25,7 @@ public class Message {
     public static void sendSuccessMsg(CommandSender sender, String message) {
         sender.sendMessage(Component.text()
                 .append(header)
-                .append(Component.text(message)
-                        .color(successColor)
-                )
+                .append(Component.text(message).color(successColor))
                 .build()
         );
     }
@@ -37,9 +33,7 @@ public class Message {
     public static void sendMessage(CommandSender sender, String message) {
         sender.sendMessage(Component.text()
                 .append(header)
-                .append(Component.text(message)
-                        .color(msgColor)
-                )
+                .append(Component.text(message).color(msgColor))
                 .build()
         );
     }

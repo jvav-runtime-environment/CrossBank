@@ -17,13 +17,14 @@ public class EcoManager {
 
         RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
-            plugin.getLogger().warning("no service provider found!");
+            plugin.getLogger().warning("未找到提供经济的插件, 插件无法运行");
             plugin.setEnabled(false);
             return;
         }
         economy = rsp.getProvider();
     }
 
+    // 跨服存钱方法
     public void startCrossDeposit(Player player, String targetServer, Double amount) {
         plugin.getServer().getAsyncScheduler().runNow(plugin, task -> {
             DataPack dataPack = DataPack.build()
@@ -45,6 +46,7 @@ public class EcoManager {
         });
     }
 
+    // 跨服取钱方法
     public void startCrossWithdraw(Player player, String targetServer, Double amount) {
         plugin.getServer().getAsyncScheduler().runNow(plugin, task -> {
             DataPack dataPack = DataPack.build()
