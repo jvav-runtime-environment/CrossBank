@@ -19,5 +19,10 @@ permissions:
     default: true
   cbank.deposit:
     default: true
-  cbank.transmit.*:
+  cbank.openUI:
     default: true
+  cbank.transmit:
+    default: true
+    children:
+      cbank.withdraw: true
+      cbank.deposit: true

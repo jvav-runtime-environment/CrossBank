@@ -103,11 +103,6 @@ public class Command implements CommandExecutor {
             return;
         }
 
-        if (!player.hasPermission("cbank.withdraw")) {
-            Message.sendErrorMsg(player, "你没有权限");
-            return;
-        }
-
         if (args.length != 3) {
             Message.sendErrorMsg(player, "用法错误");
             return;
@@ -116,8 +111,8 @@ public class Command implements CommandExecutor {
         String serverName = args[1];
         String amount = args[2];
 
-        if (!player.hasPermission("cbank.transmit." + serverName)) {
-            Message.sendErrorMsg(player, "你没有 " + serverName + " 的权限");
+        if (!player.hasPermission("cbank.withdraw." + serverName)) {
+            Message.sendErrorMsg(player, "你没有 " + serverName + " 取款的权限");
             return;
         }
 
@@ -136,11 +131,6 @@ public class Command implements CommandExecutor {
             return;
         }
 
-        if (!player.hasPermission("cbank.deposit")) {
-            Message.sendErrorMsg(player, "你没有权限");
-            return;
-        }
-
         if (args.length != 3) {
             Message.sendErrorMsg(player, "用法错误");
             return;
@@ -149,8 +139,8 @@ public class Command implements CommandExecutor {
         String serverName = args[1];
         String amount = args[2];
 
-        if (!player.hasPermission("cbank.transmit." + serverName)) {
-            Message.sendErrorMsg(player, "你没有 " + serverName + " 的权限");
+        if (!player.hasPermission("cbank.deposit." + serverName)) {
+            Message.sendErrorMsg(player, "你没有 " + serverName + " 存款的权限");
             return;
         }
 
