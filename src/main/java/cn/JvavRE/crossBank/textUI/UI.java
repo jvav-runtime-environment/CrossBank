@@ -169,22 +169,21 @@ public class UI {
     public void displayTo(Player player) {
         plugin.getServer().getAsyncScheduler().runNow(plugin, task -> {
             StringBuilder ui = new StringBuilder();
-
-            ui.append(Config.getUIHeader());
-            ui.append("<newline> ");
-
             List<String> contents = getContents(player);
+
             if (!contents.isEmpty()) {
+                ui.append(Config.getUIHeader());
+                ui.append("<newline><newline>");
+
                 for (String content : contents) {
                     ui.append(content);
-                    ui.append("<newline> ");
+                    ui.append("<newline><newline>");
                 }
+
+                ui.append(Config.getUIFooter());
             } else {
                 ui.append(Config.getUILoadingData());
-                ui.append("<newline> ");
             }
-
-            ui.append(Config.getUIFooter());
 
             player.sendMessage(MiniMessage.miniMessage().deserialize(ui.toString()));
         });

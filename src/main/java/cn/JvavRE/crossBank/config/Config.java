@@ -6,15 +6,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.UUID;
 
 public class Config {
-    private static final String DefaultUIHeader = "<bold><color:#0096FF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold><color:#00FF9B> [ 跨服银行系统 ] </color><bold><color:#0096FF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold>";
-    private static final String DefaultUIContent = "<color:#0096FF>⦿ </color><color:#00FF9B>{server}</color><color:#0096FF>  余额: </color><color:#FFD700>{amount}</color><newline><color:#0096FF>├─ </color>{action}";
+    private static final String DefaultUIHeader = "<bold><color:#5EFFFF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold><color:#00FF9B> [ 跨服银行 ] </color><bold><color:#5EFFFF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold>";
+    private static final String DefaultUIContent = "<color:#5EFFFF>⦿ </color><color:#00FF9B>{server}</color><color:#5EFFFF>  余额: </color><color:#FFD700>{amount}</color><newline><color:#5EFFFF>├─ </color>{action}";
     private static final String DefaultUICurrentServer = "<green>你所在服务器</green>";
     private static final String DefaultUIServerUnavailable = "<red>服务器不可用</red>";
-    private static final String DefaultUILoadingData = "<color:#0096FF>正在获取数据, 请稍后再试(1min)</color>";
-    private static final String DefaultUIButtonSeparator = "<color:#0096FF> | </color>";
-    private static final String DefaultUIWithdrawButton = "<green>取款 <click:run_command:'/cbank withdrawEx {server}'><hover:show_text:'<color:#0096FF>点击 <green>取款</green><newline>目标服务器: {server}<newline>在聊天栏输入金额</color>'>[↓]</hover></click></green>";
-    private static final String DefaultUIDepositButton = "<red>存款 <click:run_command:'/cbank depositEx {server}'><hover:show_text:'<color:#0096FF>点击 <red>取款</red><newline>目标服务器: {server}<newline>在聊天栏输入金额</color>'>[↑]</hover></click></red>";
-    private static final String DefaultUIFooter = "<color:#0096FF>-提示: 点击按钮操作，悬停查看说明</color>";
+    private static final String DefaultUILoadingData = "<color:#5EFFFF>正在获取数据, 请稍后再试(1min)</color>";
+    private static final String DefaultUIButtonSeparator = "<color:#5EFFFF> | </color>";
+    private static final String DefaultUIWithdrawButton = "<green>取款 <click:run_command:'/cbank withdrawEx {server}'><hover:show_text:'<color:#5EFFFF>点击 <green>取款</green><newline>目标服务器: <color:#00FF9B>{server}</color><newline>在聊天栏输入金额</color>'>[↓]</hover></click></green>";
+    private static final String DefaultUIDepositButton = "<red>存款 <click:run_command:'/cbank depositEx {server}'><hover:show_text:'<color:#5EFFFF>点击 <red>取款</red><newline>目标服务器: <color:#00FF9B>{server}</color><newline>在聊天栏输入金额</color>'>[↑]</hover></click></red>";
+    private static final String DefaultUIFooter = "<color:#5EFFFF>-提示: 点击按钮操作，悬停查看说明</color>";
     public static String host;
     public static int port;
     public static boolean isServer;

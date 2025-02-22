@@ -28,7 +28,7 @@ public class Message {
             result.append(Component.text(headerString.charAt(i)).color(TextColor.lerp(t, start, end)));
         }
 
-        return result.append(Component.text(" ")).decorate(TextDecoration.BOLD).build();
+        return result.append(Component.text(" ")).build();
     }
 
     public static void sendErrorMsg(CommandSender sender, String message) {
