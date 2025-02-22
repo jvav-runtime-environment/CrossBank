@@ -7,6 +7,7 @@ import cn.JvavRE.crossBank.utils.Message;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +28,8 @@ public class Command implements CommandExecutor {
                 case "withdraw" -> onWithdraw(sender, args);
                 case "deposit" -> onDeposit(sender, args);
                 case "ui" -> onUIOpen(sender, args);
+                case "withdrawEx" -> onWithdrawEx(sender, args);
+                case "depositEx" -> onDepositEx(sender, args);
                 default -> Message.sendErrorMsg(sender, "用法错误");
             }
         } else {
@@ -156,6 +159,44 @@ public class Command implements CommandExecutor {
         }
 
         plugin.getEcoManager().startCrossDeposit(player, serverName, Double.parseDouble(amount));
+    }
+
+    private void onWithdrawEx(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) {
+            Message.sendErrorMsg(sender, "控制台爬");
+            return;
+        }
+
+        if (args.length != 2) {
+            Message.sendErrorMsg(player, "用法错误");
+            return;
+        }
+
+        String serverName = args[1];
+
+        Conversation conv = plugin.getInputManager().startPromote(player);
+        conv.getContext().setSessionData("server", serverName);
+        conv.getContext().setSessionData("cmd", "withdraw");
+        conv.begin();
+    }
+
+    private void onDepositEx(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) {
+            Message.sendErrorMsg(sender, "控制台爬");
+            return;
+        }
+
+        if (args.length != 2) {
+            Message.sendErrorMsg(player, "用法错误");
+            return;
+        }
+
+        String serverName = args[1];
+
+        Conversation conv = plugin.getInputManager().startPromote(player);
+        conv.getContext().setSessionData("server", serverName);
+        conv.getContext().setSessionData("cmd", "deposit");
+        conv.begin();
     }
 
     private void onOnline(CommandSender sender, String[] args) {

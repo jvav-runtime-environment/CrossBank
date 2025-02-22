@@ -128,7 +128,7 @@ public class Connection {
                 startUpdateServersTask();
                 throw new RuntimeException(e);
             }
-        }, 0, 1, TimeUnit.MINUTES);
+        }, 1, 60, TimeUnit.SECONDS);
     }
 
     public String[] getOnlineServers() {
