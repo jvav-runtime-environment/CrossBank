@@ -171,7 +171,7 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
-        Message.sendMiniMessage(player, "<color:5EFFFF>请输入金额(输入 <yellow>cancel</yellow> 取消):");
+        Message.sendMiniMessage(player, "<color:#5EFFFF>请输入金额(输入 <yellow>cancel</yellow> 取消):</color>");
         plugin.getInputManager().startConversation(player, 60)
                 .thenAccept(amount -> onWithdraw(player, new String[]{"withdraw", serverName, amount}))
                 .exceptionally(e -> {

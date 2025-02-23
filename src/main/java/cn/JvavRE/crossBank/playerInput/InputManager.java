@@ -6,10 +6,10 @@ import cn.JvavRE.crossBank.utils.Message;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class InputManager {
     private final CrossBank plugin;
@@ -17,7 +17,7 @@ public class InputManager {
 
     public InputManager(CrossBank plugin) {
         this.plugin = plugin;
-        this.conversations = new HashMap<>();
+        this.conversations = new ConcurrentHashMap<>();
         new PlayerInputListener(this);
     }
 
@@ -72,7 +72,6 @@ public class InputManager {
 
 
 class Session {
-
     private final CompletableFuture<String> future;
     private ScheduledTask timeoutTask;
 
@@ -92,6 +91,6 @@ class Session {
 
     public void complete(String value) {
         future.complete(value);
-        cancel();
+        timeoutTask.cancel();
     }
 }
