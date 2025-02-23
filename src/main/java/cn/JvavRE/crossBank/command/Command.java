@@ -8,7 +8,6 @@ import cn.JvavRE.crossBank.utils.Message;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -171,10 +170,12 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
-        Conversation conv = plugin.getInputManager().getConversation(player);
-        conv.getContext().setSessionData("server", serverName);
-        conv.getContext().setSessionData("cmd", "withdraw");
-        conv.begin();
+        plugin.getInputManager().startConversation(player, 60)
+                .thenAccept(amount -> onWithdraw(player, new String[]{"withdraw", serverName, amount}))
+                .exceptionally(e -> {
+                    Message.sendErrorMsg(player, "会话已取消");
+                    return null;
+                });
     }
 
     // UI调用方法获取输入
@@ -191,10 +192,12 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
-        Conversation conv = plugin.getInputManager().getConversation(player);
-        conv.getContext().setSessionData("server", serverName);
-        conv.getContext().setSessionData("cmd", "deposit");
-        conv.begin();
+        plugin.getInputManager().startConversation(player, 60)
+                .thenAccept(amount -> onDeposit(player, new String[]{"deposit", serverName, amount}))
+                .exceptionally(e -> {
+                    Message.sendErrorMsg(player, "会话已取消");
+                    return null;
+                });
     }
 
     private void onOnline(CommandSender sender, String[] args) {

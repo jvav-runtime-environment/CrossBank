@@ -13,7 +13,7 @@ public class Config {
     private static final String DefaultUILoadingData = "<color:#5EFFFF>正在获取数据, 请稍后再试(1min)</color>";
     private static final String DefaultUIButtonSeparator = "<color:#5EFFFF> | </color>";
     private static final String DefaultUIWithdrawButton = "<green>取款 <click:run_command:'/cbank withdrawEx {server}'><hover:show_text:'<color:#5EFFFF>点击 <green>取款</green><newline>目标服务器: <color:#00FF9B>{server}</color><newline>在聊天栏输入金额</color>'>[↓]</hover></click></green>";
-    private static final String DefaultUIDepositButton = "<red>存款 <click:run_command:'/cbank depositEx {server}'><hover:show_text:'<color:#5EFFFF>点击 <red>取款</red><newline>目标服务器: <color:#00FF9B>{server}</color><newline>在聊天栏输入金额</color>'>[↑]</hover></click></red>";
+    private static final String DefaultUIDepositButton = "<red>存款 <click:run_command:'/cbank depositEx {server}'><hover:show_text:'<color:#5EFFFF>点击 <red>存款</red><newline>目标服务器: <color:#00FF9B>{server}</color><newline>在聊天栏输入金额</color>'>[↑]</hover></click></red>";
     private static final String DefaultUIFooter = "<color:#5EFFFF>-提示: 点击按钮操作，悬停查看说明</color>";
     public static String host;
     public static int port;
@@ -37,6 +37,7 @@ public class Config {
     }
 
     public static void reload() {
+        plugin.reloadConfig();
         loadConfig();
     }
 
