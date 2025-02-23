@@ -5,6 +5,7 @@ import cn.JvavRE.crossBank.config.Config;
 import cn.JvavRE.crossBank.connection.DataPack;
 import cn.JvavRE.crossBank.utils.Digit;
 import cn.JvavRE.crossBank.utils.Message;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -170,6 +171,7 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
+        Message.sendMiniMessage(player, "<color:5EFFFF>请输入金额(输入 <yellow>cancel</yellow> 取消):");
         plugin.getInputManager().startConversation(player, 60)
                 .thenAccept(amount -> onWithdraw(player, new String[]{"withdraw", serverName, amount}))
                 .exceptionally(e -> {
@@ -192,6 +194,7 @@ public class Command implements CommandExecutor {
 
         String serverName = args[1];
 
+        Message.sendMiniMessage(player, "<color:#5EFFFF>请输入金额(输入 <yellow>cancel</yellow> 取消):</color>");
         plugin.getInputManager().startConversation(player, 60)
                 .thenAccept(amount -> onDeposit(player, new String[]{"deposit", serverName, amount}))
                 .exceptionally(e -> {

@@ -44,16 +44,21 @@ public class InputManager {
             return false;
         }
 
+        if (message.equalsIgnoreCase("cancel")){
+            conversations.remove(player.getUniqueId()).cancel();
+            return true;
+        }
+
         if (!Digit.isDigit(message)) {
             Message.sendErrorMsg(player, "必须输入一个数字");
-            return false;
+            return true;
         }
 
         double amount = Double.parseDouble(message);
 
         if (amount <= 0) {
             Message.sendErrorMsg(player, "金额必须大于0");
-            return false;
+            return true;
         }
 
         conversations.remove(player.getUniqueId()).complete(message);

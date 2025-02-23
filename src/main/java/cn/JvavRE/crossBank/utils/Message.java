@@ -38,7 +38,9 @@ public class Message {
         );
     }
 
-    public static void sendMessage(CommandSender sender, Component component) {
-        sender.sendMessage(Component.text().append(header).append(component).build());
+    public static void sendMiniMessage(CommandSender sender, String message) {
+        sender.sendMessage(Component.text().append(header).append(MiniMessage.miniMessage().deserialize(message)).build());
     }
+
+
 }
