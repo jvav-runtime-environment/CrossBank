@@ -5,7 +5,6 @@ import cn.JvavRE.crossBank.config.Config;
 import cn.JvavRE.crossBank.connection.DataPack;
 import cn.JvavRE.crossBank.utils.Digit;
 import cn.JvavRE.crossBank.utils.Message;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

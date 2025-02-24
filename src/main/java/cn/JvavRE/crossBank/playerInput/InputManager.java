@@ -44,7 +44,7 @@ public class InputManager {
             return false;
         }
 
-        if (message.equalsIgnoreCase("cancel")){
+        if (message.equalsIgnoreCase("cancel")) {
             conversations.remove(player.getUniqueId()).cancel();
             return true;
         }

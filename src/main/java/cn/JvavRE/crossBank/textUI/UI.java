@@ -2,6 +2,7 @@ package cn.JvavRE.crossBank.textUI;
 
 import cn.JvavRE.crossBank.CrossBank;
 import cn.JvavRE.crossBank.config.Config;
+import cn.JvavRE.crossBank.config.UIConfig;
 import cn.JvavRE.crossBank.connection.DataPack;
 import cn.JvavRE.crossBank.utils.Digit;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -30,24 +31,16 @@ public class UI {
 
             String action;
             if (!Config.getServerName().equals(serverName)) {
-                if (Digit.isDigit(amount)) {
+                if (Digit.isDigit(amount)) action = UIConfig.getActionAvailable();
+                else action = UIConfig.getActionUnavailable();
+            } else action = UIConfig.getActionInServer();
 
-                    String withdrawButton = Config.getUIWithdrawButton().replace("{server}", serverName);
-                    String depositButton = Config.getUIDepositButton().replace("{server}", serverName);
-
-                    action = withdrawButton + Config.getUIButtonSeparator() + depositButton;
-
-                } else {
-                    action = Config.getUIServerUnavailable();
-                }
-            } else {
-                action = Config.getUICurrentServer();
-            }
-
-            contents.add(Config.getUIContent()
+            contents.add(UIConfig.getContent()
+                    .replace("{action}", action)
+                    .replace("{withdrawButton}", UIConfig.getWithdrawButton())
+                    .replace("{depositButton}", UIConfig.getDepositButton())
                     .replace("{server}", serverName)
                     .replace("{amount}", amount + "$")
-                    .replace("{action}", action)
             );
         }
         return contents;
@@ -60,7 +53,7 @@ public class UI {
             List<String> contents = getContents(player);
 
             if (!contents.isEmpty()) {
-                ui.append(Config.getUIHeader());
+                ui.append(UIConfig.getHeader());
                 ui.append("<newline><newline>");
 
                 for (String content : contents) {
@@ -68,9 +61,9 @@ public class UI {
                     ui.append("<newline><newline>");
                 }
 
-                ui.append(Config.getUIFooter());
+                ui.append(UIConfig.getFooter());
             } else {
-                ui.append(Config.getUILoadingData());
+                ui.append(UIConfig.getLoadingData());
             }
 
             player.sendMessage(MiniMessage.miniMessage().deserialize(ui.toString()));
