@@ -37,7 +37,7 @@ public class EcoManager {
             switch (response.getType()) {
                 case RESULT_SUCCEED -> {
                     Message.sendSuccessMsg(player, "成功转移 " + amount + "$");
-                    plugin.getLogger().info("资金转移: " + response.getMessage() + " " + response.getTargetServer() + " -> " + response.getTargetServer());
+                    plugin.getLogger().info("<%s> 转移资金: %s ; %s -> %s".formatted(player.getName(), amount, response.getTargetServer(), response.getSourceServer()));
                 }
                 case RESULT_FAILED -> {
                     Message.sendErrorMsg(player, "转移失败: " + response.getMessage());
@@ -63,7 +63,7 @@ public class EcoManager {
                 case RESULT_SUCCEED -> {
                     plugin.getEcoManager().givePlayerMoney(player, amount);
                     Message.sendSuccessMsg(player, "成功转移 " + amount + "$");
-                    plugin.getLogger().info("资金转移: " + response.getMessage() + " " + response.getSourceServer() + " -> " + response.getTargetServer());
+                    plugin.getLogger().info("<%s> 转移资金: %s ; %s -> %s".formatted(player.getName(), amount, response.getSourceServer(), response.getTargetServer()));
                 }
                 case RESULT_FAILED -> Message.sendErrorMsg(player, "转移失败: " + response.getMessage());
                 case RESULT_INTERNAL_ERROR -> Message.sendErrorMsg(player, "发生内部错误: " + response.getMessage());

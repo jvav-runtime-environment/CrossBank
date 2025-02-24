@@ -31,8 +31,13 @@ public class UI {
 
             String action;
             if (!Config.getServerName().equals(serverName)) {
-                if (Digit.isDigit(amount)) action = UIConfig.getActionAvailable();
-                else action = UIConfig.getActionUnavailable();
+                if (Digit.isDigit(amount)) {
+                    action = UIConfig.getActionAvailable();
+                }
+                else {
+                    action = UIConfig.getActionUnavailable();
+                    amount = "--.--";
+                }
             } else action = UIConfig.getActionInServer();
 
             contents.add(UIConfig.getContent()

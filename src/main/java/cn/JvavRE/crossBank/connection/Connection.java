@@ -162,6 +162,7 @@ public class Connection {
     public void reload() {
         server.close();
         client.close();
+        onlineServers = new String[] {};
         start();
     }
 }
