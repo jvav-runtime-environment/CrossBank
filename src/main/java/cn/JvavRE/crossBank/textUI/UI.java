@@ -33,8 +33,7 @@ public class UI {
             if (!Config.getServerName().equals(serverName)) {
                 if (Digit.isDigit(amount)) {
                     action = UIConfig.getActionAvailable();
-                }
-                else {
+                } else {
                     action = UIConfig.getActionUnavailable();
                     amount = "--.--";
                 }

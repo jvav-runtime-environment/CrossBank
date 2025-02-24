@@ -25,7 +25,7 @@ public class UIConfig {
     private static String depositButton;
 
     protected static void loadConfig(ConfigurationSection uiConfig) {
-        if(uiConfig!=null){
+        if (uiConfig != null) {
             header = uiConfig.getString("header", DEFAULT_HEADER);
             content = uiConfig.getString("content", DEFAULT_CONTENT);
             footer = uiConfig.getString("footer", DEFAULT_FOOTER);
@@ -35,7 +35,7 @@ public class UIConfig {
             loadingData = uiConfig.getString("loading-data", DEFAULT_LOADING_DATA);
             withdrawButton = uiConfig.getString("withdraw-button", DEFAULT_WITHDRAW_BUTTON);
             depositButton = uiConfig.getString("deposit-button", DEFAULT_DEPOSIT_BUTTON);
-        }else {
+        } else {
             header = DEFAULT_HEADER;
             content = DEFAULT_CONTENT;
             footer = DEFAULT_FOOTER;
@@ -48,13 +48,39 @@ public class UIConfig {
         }
     }
 
-    public static String getHeader() { return header; }
-    public static String getContent() { return content; }
-    public static String getFooter() { return footer; }
-    public static String getActionInServer() { return actionInServer; }
-    public static String getActionUnavailable() { return actionUnavailable; }
-    public static String getActionAvailable() { return actionAvailable; }
-    public static String getLoadingData() { return loadingData; }
-    public static String getWithdrawButton() { return withdrawButton; }
-    public static String getDepositButton() { return depositButton; }
+    public static String getHeader() {
+        return header;
+    }
+
+    public static String getContent() {
+        return content;
+    }
+
+    public static String getFooter() {
+        return footer;
+    }
+
+    public static String getActionInServer() {
+        return actionInServer;
+    }
+
+    public static String getActionUnavailable() {
+        return actionUnavailable;
+    }
+
+    public static String getActionAvailable() {
+        return actionAvailable;
+    }
+
+    public static String getLoadingData() {
+        return loadingData;
+    }
+
+    public static String getWithdrawButton() {
+        return withdrawButton;
+    }
+
+    public static String getDepositButton() {
+        return depositButton;
+    }
 }
