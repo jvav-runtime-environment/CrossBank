@@ -37,6 +37,9 @@ public class Config {
         // 自定义ui
         UIConfig.loadConfig(configuration.getConfigurationSection("ui"));
 
+        // 自定义提示
+        LanguageConfig.loadConfig(configuration.getConfigurationSection("language"));
+
         // 如果主机ip不是localhost则一定不作为服务端启动
         if (!(host.equals("localhost") || host.equals("127.0.0.1"))) {
             isServer = false;
