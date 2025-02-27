@@ -16,21 +16,28 @@ public enum MessageKey {
 
     TRANSMIT_SUCCESS("transmit-success","<green>成功转移 <yellow>%s</yellow>$</green>"),
     ONLINE_SERVERS("online-servers", "<green>当前在线服务器: <yellow>%s</yellow></green>"),
-    PING("ping", "<green>收到的返回值: </green>");
+    PING("ping", "<green>收到的返回值: </green>"),
+
+    //数据包文本定义, 一般不会用到
+    DATA_PACK_NO_SUCH_COMMAND("no-such-command", "没有这个命令"),
+    DATA_PACK_TARGET_SERVER_OFFLINE("target-server-offline", "目标服务器不在线"),
+    DATA_PACK_TIME_OUT("time-out", "请求超时"),
+    DATA_PACK_INTERNAL_ERROR("internal-error", "内部错误: "),
+    DATA_PACK_NOT_AVAILABLE_NUMBER("not-available-number", "数据格式错误");
 
     private final String keyName;
-    private final String defaultValue;
+    private final String message;
 
-    MessageKey(String keyName, String defaultValue) {
+    MessageKey(String keyName, String message) {
         this.keyName = keyName;
-        this.defaultValue = defaultValue;
+        this.message = message;
     }
 
     public String getKeyName() {
         return keyName;
     }
 
-    public String getDefaultValue() {
-        return defaultValue;
+    public String getMessage() {
+        return message;
     }
 }

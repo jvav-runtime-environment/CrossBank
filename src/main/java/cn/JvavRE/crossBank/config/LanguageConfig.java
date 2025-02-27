@@ -13,11 +13,11 @@ public class LanguageConfig {
 
         if(langConfig!=null) {
             for (MessageKey key : MessageKey.values()) {
-                newMap.put(key.getKeyName(), langConfig.getString(key.getKeyName(), key.getDefaultValue()));
+                newMap.put(key.getKeyName(), langConfig.getString(key.getKeyName(), key.getMessage()));
             }
         }else {
             for (MessageKey key : MessageKey.values()) {
-                newMap.put(key.getKeyName(), key.getDefaultValue());
+                newMap.put(key.getKeyName(), key.getMessage());
             }
         }
 

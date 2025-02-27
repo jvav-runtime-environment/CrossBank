@@ -2,6 +2,7 @@ package cn.JvavRE.crossBank.connection;
 
 import cn.JvavRE.crossBank.CrossBank;
 import cn.JvavRE.crossBank.config.Config;
+import cn.JvavRE.crossBank.config.MessageKey;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 
@@ -44,12 +45,12 @@ public class Connection {
                             .withMessage(String.join(";", servers));
                 }
                 default -> {
-                    return DataPack.getResponse(dataPack).asError("No Such Command");
+                    return DataPack.getResponse(dataPack).asError(MessageKey.DATA_PACK_NO_SUCH_COMMAND.getMessage());
                 }
             }
         } else {
             if (!server.getConnectedClients().containsKey(dataPack.getTargetServer())) {
-                return DataPack.getResponse(dataPack).asError("No Target Client Connected");
+                return DataPack.getResponse(dataPack).asError(MessageKey.DATA_PACK_TARGET_SERVER_OFFLINE.getMessage());
             } else {
                 return dataPack;
             }
@@ -91,13 +92,13 @@ public class Connection {
                             .withMessage(ecoResponse.errorMessage);
                 }
                 default -> {
-                    return DataPack.getResponse(dataPack).asError("No Such Command");
+                    return DataPack.getResponse(dataPack).asError(MessageKey.DATA_PACK_NO_SUCH_COMMAND.getMessage());
                 }
             }
         } catch (NumberFormatException e) {
-            return DataPack.getResponse(dataPack).asError("Invalid amount format");
+            return DataPack.getResponse(dataPack).asError(MessageKey.DATA_PACK_NOT_AVAILABLE_NUMBER.getMessage());
         } catch (Exception e) {
-            return DataPack.getResponse(dataPack).asError("Internal error: " + e.getMessage());
+            return DataPack.getResponse(dataPack).asError(MessageKey.DATA_PACK_INTERNAL_ERROR.getMessage() + e.getMessage());
         }
     }
 
@@ -149,7 +150,7 @@ public class Connection {
             return future.get(5, TimeUnit.SECONDS);
         } catch (TimeoutException | InterruptedException | ExecutionException e) {
             dataPackFutures.remove(dataPack.getUUID(), future);
-            return DataPack.getResponse(dataPack).asError("Request Time Out");
+            return DataPack.getResponse(dataPack).asError(MessageKey.DATA_PACK_TIME_OUT.getMessage());
         }
     }
 
