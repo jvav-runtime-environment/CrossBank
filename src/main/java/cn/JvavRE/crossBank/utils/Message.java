@@ -1,44 +1,17 @@
 package cn.JvavRE.crossBank.utils;
 
+import cn.JvavRE.crossBank.command.Command;
+import cn.JvavRE.crossBank.config.LanguageConfig;
+import cn.JvavRE.crossBank.config.MessageKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class Message {
-    private static final TextColor successColor = TextColor.color(0xFF00);
-    private static final TextColor errorColor = TextColor.color(0xC80000);
-    private static final TextColor msgColor = TextColor.color(0xFFFF);
-
-    private static final Component header = MiniMessage.miniMessage().deserialize("<gradient:#0096FF:#00ff96>[CrossBank] </gradient>");
-
-    public static void sendErrorMsg(CommandSender sender, String message) {
-        sender.sendMessage(Component.text()
-                .append(header)
-                .append(Component.text(message).color(errorColor))
-                .build()
-        );
+    public void send(MessageKey key, Player player, Object... args){
+        Component component = MiniMessage.miniMessage().deserialize(LanguageConfig.get(key).formatted(args));
+        player.sendMessage(component);
     }
-
-    public static void sendSuccessMsg(CommandSender sender, String message) {
-        sender.sendMessage(Component.text()
-                .append(header)
-                .append(Component.text(message).color(successColor))
-                .build()
-        );
-    }
-
-    public static void sendMessage(CommandSender sender, String message) {
-        sender.sendMessage(Component.text()
-                .append(header)
-                .append(Component.text(message).color(msgColor))
-                .build()
-        );
-    }
-
-    public static void sendMiniMessage(CommandSender sender, String message) {
-        sender.sendMessage(Component.text().append(header).append(MiniMessage.miniMessage().deserialize(message)).build());
-    }
-
-
 }
