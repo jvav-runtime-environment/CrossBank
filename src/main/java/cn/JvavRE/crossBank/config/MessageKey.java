@@ -6,7 +6,7 @@ public enum MessageKey {
     NO_PERMISSION("no-permission", "<red>你没有权限</red>"),
     TARGET_SERVER_NO_PERMISSION("target-server-no-permission", "<red>你没有 %s 存款/取款的权限</red>"),
     INPUT_NOT_NUMBER("input-not-number", "<red>你输入的不是有效数值</red>"),
-    AMOUNT_BELOW_ZERO("amount-bellow-zero", "<red>数额必须大于0</red>"),
+    AMOUNT_BELOW_ZERO("amount-below-zero", "<red>数额必须大于0</red>"),
     TRANSMIT_FAILED("transmit-failed", "<red>转账失败, 原因: %s</red>"),
     INTERNAL_ERROR("internal-error", "<red>发生内部错误: %s</red>"),
 

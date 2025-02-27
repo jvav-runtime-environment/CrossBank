@@ -1,8 +1,21 @@
+#指定插件连接的IP地址
 server-host: localhost
+
+#指定连接端口
 server-port: 11891
+
+#让插件是否启动服务端来中转消息
+#为true的时候则始终尝试启动服务端
+#如果server-host不为 localhost 或者 127.0.0.1 则此项不生效, 强制为false
 run-as-server: true
+
+#用来标记服务器名称
+#注意不要带特殊格式, 否则输入命令等情况下也必须带着这些符号
+#默认为random, 是一个随机UUID
+#更改之后使用 /cbank reload all 加载配置
 server-name: random
 
+#自定义UI配置
 ui:
   header: "<bold><color:#5EFFFF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰<color:#00FF9B> [ 跨服银行 ] </color>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold>"
   content: "<color:#5EFFFF>⦿ <color:#00FF9B>{server}</color>  余额: <color:#FFD700>{amount}</color><newline><color:#5EFFFF>├─ </color>{action}</color>"
@@ -13,3 +26,22 @@ ui:
   loading-data: "<color:#5EFFFF>正在获取数据, 请稍后再试(1min)</color>"
   withdraw-button: "<green>取款 <click:run_command:'/cbank withdrawEx {server}'><hover:show_text:'<color:#5EFFFF>点击 <green>取款</green><newline>目标服务器: <color:#00FF9B>{server}</color><newline>在聊天栏输入金额</color>'>[↓]</hover></click></green>"
   deposit-button: "<red>存款 <click:run_command:'/cbank depositEx {server}'><hover:show_text:'<color:#5EFFFF>点击 <red>存款</red><newline>目标服务器: <color:#00FF9B>{server}</color><newline>在聊天栏输入金额</color>'>[↑]</hover></click></red>"
+
+#自定义消息配置
+language:
+  wrong-usage: "<red>用法错误</red>"
+  send-by-console: "<red>控制台爬</red>"
+  no-permission: "<red>你没有权限</red>"
+  target-server-no-permission: "<red>你没有 %s 存款/取款的权限</red>"
+  input-not-number: "<red>你输入的不是有效数值</red>"
+  amount-below-zero: "<red>数额必须大于0</red>"
+  transmit-failed: "<red>转账失败, 原因: %s</red>"
+  internal-error: "<red>发生内部错误: %s</red>"
+
+  session-start: "<color:#5EFFFF>请输入金额(输入 <yellow>cancel</yellow> 取消):</color>"
+  session-timeout: "<red>会话超时</red>"
+  session-canceled: "<red>会话已取消</red>"
+
+  transmit-success: "<green>成功转移 <yellow>%s</yellow>$</green>"
+  online-servers: "<green>当前在线服务器: <yellow>%s</yellow></green>"
+  ping: "<green>收到的返回值: </green>"
