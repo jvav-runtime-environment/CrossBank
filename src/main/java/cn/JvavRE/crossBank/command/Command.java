@@ -2,6 +2,7 @@ package cn.JvavRE.crossBank.command;
 
 import cn.JvavRE.crossBank.CrossBank;
 import cn.JvavRE.crossBank.config.Config;
+import cn.JvavRE.crossBank.config.MessageKey;
 import cn.JvavRE.crossBank.connection.DataPack;
 import cn.JvavRE.crossBank.utils.Digit;
 import cn.JvavRE.crossBank.utils.Message;
@@ -30,11 +31,11 @@ public class Command implements CommandExecutor {
                 case "ui" -> onUIOpen(sender, args);
                 case "withdrawEx" -> onWithdrawEx(sender, args);
                 case "depositEx" -> onDepositEx(sender, args);
-                default -> Message.sendErrorMsg(sender, "用法错误");
+                default -> Message.send(sender, MessageKey.WRONG_USAGE);
             }
         } else {
             // TODO: 增加用法提示, 增加tab提示
-            Message.sendErrorMsg(sender, "用法错误");
+            Message.send(sender, MessageKey.WRONG_USAGE);
         }
 
         return true;
@@ -43,12 +44,12 @@ public class Command implements CommandExecutor {
     private void onPing(CommandSender sender, String[] args) {
         // cbank ping <server> <msg>
         if (!sender.hasPermission("cbank.ping")) {
-            Message.sendErrorMsg(sender, "你没有权限");
+            Message.send(sender, MessageKey.NO_PERMISSION);
             return;
         }
 
         if (args.length != 3) {
-            Message.sendErrorMsg(sender, "用法错误");
+            Message.send(sender, MessageKey.WRONG_USAGE);
             return;
         }
 
@@ -61,14 +62,14 @@ public class Command implements CommandExecutor {
 
         plugin.getServer().getAsyncScheduler().runNow(plugin, (scheduledTask) -> {
             DataPack result = plugin.getConnManager().request(dataPack);
-            Message.sendMessage(sender, "返回的消息: " + result.getMessage());
+            Message.send(sender, MessageKey.PING,result.getMessage());
         });
     }
 
     private void onReload(CommandSender sender, String[] args) {
         // cbank reload (all)
         if (!sender.hasPermission("cbank.reload")) {
-            Message.sendErrorMsg(sender, "你没有权限");
+            Message.send(sender, MessageKey.NO_PERMISSION);
             return;
         }
 
@@ -82,12 +83,12 @@ public class Command implements CommandExecutor {
 
     private void onUIOpen(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
-            Message.sendErrorMsg(sender, "控制台爬");
+            Message.send(sender, MessageKey.SEND_BY_CONSOLE);
             return;
         }
 
         if (!player.hasPermission("cbank.openUI")) {
-            Message.sendErrorMsg(player, "你没有权限");
+            Message.send(player, MessageKey.NO_PERMISSION);
             return;
         }
 
@@ -97,12 +98,12 @@ public class Command implements CommandExecutor {
     private void onWithdraw(CommandSender sender, String[] args) {
         // cbank withdraw <server> <amount>
         if (!(sender instanceof Player player)) {
-            Message.sendErrorMsg(sender, "控制台爬");
+            Message.send(sender, MessageKey.SEND_BY_CONSOLE);
             return;
         }
 
         if (args.length != 3) {
-            Message.sendErrorMsg(player, "用法错误");
+            Message.send(player, MessageKey.WRONG_USAGE);
             return;
         }
 
@@ -110,12 +111,12 @@ public class Command implements CommandExecutor {
         String amount = args[2];
 
         if (!player.hasPermission("cbank.transmit." + serverName)) {
-            Message.sendErrorMsg(player, "你没有 " + serverName + " 存/取款的权限");
+            Message.send(player, MessageKey.TARGET_SERVER_NO_PERMISSION, serverName);
             return;
         }
 
         if (!Digit.isDigit(amount)) {
-            Message.sendErrorMsg(player, "输入的不是有效数值");
+            Message.send(player, MessageKey.INPUT_NOT_NUMBER);
             return;
         }
 
@@ -125,12 +126,12 @@ public class Command implements CommandExecutor {
     private void onDeposit(CommandSender sender, String[] args) {
         // cbank deposit <server> <amount>
         if (!(sender instanceof Player player)) {
-            Message.sendErrorMsg(sender, "控制台爬");
+            Message.send(sender, MessageKey.SEND_BY_CONSOLE);
             return;
         }
 
         if (args.length != 3) {
-            Message.sendErrorMsg(player, "用法错误");
+            Message.send(player, MessageKey.WRONG_USAGE);
             return;
         }
 
@@ -138,18 +139,18 @@ public class Command implements CommandExecutor {
         String amount = args[2];
 
         if (!player.hasPermission("cbank.transmit." + serverName)) {
-            Message.sendErrorMsg(player, "你没有 " + serverName + " 存/取款的权限");
+            Message.send(player, MessageKey.TARGET_SERVER_NO_PERMISSION, serverName);
             return;
         }
 
         if (!Digit.isDigit(amount)) {
-            Message.sendErrorMsg(player, "输入的不是有效数值");
+            Message.send(player, MessageKey.INPUT_NOT_NUMBER);
             return;
         }
 
         EconomyResponse ecoResponse = plugin.getEcoManager().takePlayerMoney(player, Double.parseDouble(amount));
         if (!ecoResponse.transactionSuccess()) {
-            Message.sendErrorMsg(player, "扣款失败: " + ecoResponse.errorMessage);
+            Message.send(player, MessageKey.TRANSMIT_FAILED, ecoResponse.errorMessage);
             return;
         }
 
@@ -159,22 +160,22 @@ public class Command implements CommandExecutor {
     // UI调用方法获取输入
     private void onWithdrawEx(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
-            Message.sendErrorMsg(sender, "控制台爬");
+            Message.send(sender, MessageKey.SEND_BY_CONSOLE);
             return;
         }
 
         if (args.length != 2) {
-            Message.sendErrorMsg(player, "用法错误");
+            Message.send(player, MessageKey.WRONG_USAGE);
             return;
         }
 
         String serverName = args[1];
 
-        Message.sendMiniMessage(player, "<color:#5EFFFF>请输入金额(输入 <yellow>cancel</yellow> 取消):</color>");
+        Message.send(player, MessageKey.SESSION_START);
         plugin.getInputManager().startConversation(player, 60)
                 .thenAccept(amount -> onWithdraw(player, new String[]{"withdraw", serverName, amount}))
                 .exceptionally(e -> {
-                    Message.sendErrorMsg(player, "会话已取消");
+                    Message.send(player, MessageKey.SESSION_CANCELED);
                     return null;
                 });
     }
@@ -182,32 +183,32 @@ public class Command implements CommandExecutor {
     // UI调用方法获取输入
     private void onDepositEx(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
-            Message.sendErrorMsg(sender, "控制台爬");
+            Message.send(sender, MessageKey.SEND_BY_CONSOLE);
             return;
         }
 
         if (args.length != 2) {
-            Message.sendErrorMsg(player, "用法错误");
+            Message.send(player, MessageKey.WRONG_USAGE);
             return;
         }
 
         String serverName = args[1];
 
-        Message.sendMiniMessage(player, "<color:#5EFFFF>请输入金额(输入 <yellow>cancel</yellow> 取消):</color>");
+        Message.send(player, MessageKey.SESSION_START);
         plugin.getInputManager().startConversation(player, 60)
                 .thenAccept(amount -> onDeposit(player, new String[]{"deposit", serverName, amount}))
                 .exceptionally(e -> {
-                    Message.sendErrorMsg(player, "会话已取消");
+                    Message.send(player, MessageKey.SESSION_CANCELED);
                     return null;
                 });
     }
 
     private void onOnline(CommandSender sender, String[] args) {
         if (!sender.hasPermission("cbank.online")) {
-            Message.sendErrorMsg(sender, "你没有权限");
+            Message.send(sender, MessageKey.NO_PERMISSION);
             return;
         }
 
-        Message.sendMessage(sender, "当前在线服务器: " + String.join(", ", plugin.getConnManager().getOnlineServers()));
+        Message.send(sender, MessageKey.ONLINE_SERVERS, String.join(", ", plugin.getConnManager().getOnlineServers()));
     }
 }

@@ -1,6 +1,7 @@
 package cn.JvavRE.crossBank.utils;
 
 import cn.JvavRE.crossBank.CrossBank;
+import cn.JvavRE.crossBank.config.MessageKey;
 import cn.JvavRE.crossBank.connection.DataPack;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -36,15 +37,14 @@ public class EcoManager {
             DataPack response = plugin.getConnManager().request(dataPack);
             switch (response.getType()) {
                 case RESULT_SUCCEED -> {
-                    Message.sendSuccessMsg(player, "成功转移 " + amount + "$");
-                    plugin.getLogger().info("<%s> 转移资金: %s ; %s -> %s".formatted(player.getName(), amount, response.getTargetServer(), response.getSourceServer()));
+                    Message.send(player, MessageKey.TRANSMIT_SUCCESS,amount);
+                    plugin.getLogger().info("<%s> 资金转移: %s(%s) -> %s(%s)".formatted(player.getName(), response.getTargetServer(),amount , response.getSourceServer(),amount));
                 }
                 case RESULT_FAILED -> {
-                    Message.sendErrorMsg(player, "转移失败: " + response.getMessage());
+                    Message.send(player, MessageKey.TRANSMIT_FAILED, response.getMessage());
                     plugin.getEcoManager().givePlayerMoney(player, amount);
-                    Message.sendErrorMsg(player, "数额已归还");
                 }
-                case RESULT_INTERNAL_ERROR -> Message.sendErrorMsg(player, "发生内部错误: " + response.getMessage());
+                case RESULT_INTERNAL_ERROR -> Message.send(player, MessageKey.INTERNAL_ERROR, response.getMessage());
             }
         });
     }
@@ -62,11 +62,11 @@ public class EcoManager {
             switch (response.getType()) {
                 case RESULT_SUCCEED -> {
                     plugin.getEcoManager().givePlayerMoney(player, amount);
-                    Message.sendSuccessMsg(player, "成功转移 " + amount + "$");
-                    plugin.getLogger().info("<%s> 转移资金: %s ; %s -> %s".formatted(player.getName(), amount, response.getSourceServer(), response.getTargetServer()));
+                    Message.send(player, MessageKey.TRANSMIT_SUCCESS,amount);
+                    plugin.getLogger().info("<%s> 资金转移: %s(%s) -> %s(%s)".formatted(player.getName(), response.getSourceServer(),amount, response.getTargetServer() ,amount));
                 }
-                case RESULT_FAILED -> Message.sendErrorMsg(player, "转移失败: " + response.getMessage());
-                case RESULT_INTERNAL_ERROR -> Message.sendErrorMsg(player, "发生内部错误: " + response.getMessage());
+                case RESULT_FAILED -> Message.send(player, MessageKey.TRANSMIT_FAILED,response.getMessage());
+                case RESULT_INTERNAL_ERROR -> Message.send(player, MessageKey.INTERNAL_ERROR, response.getMessage());
             }
         });
     }

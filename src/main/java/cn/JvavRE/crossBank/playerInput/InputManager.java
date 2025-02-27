@@ -1,6 +1,7 @@
 package cn.JvavRE.crossBank.playerInput;
 
 import cn.JvavRE.crossBank.CrossBank;
+import cn.JvavRE.crossBank.config.MessageKey;
 import cn.JvavRE.crossBank.utils.Digit;
 import cn.JvavRE.crossBank.utils.Message;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
@@ -32,7 +33,7 @@ public class InputManager {
         session.setTimeOut(player.getScheduler().runDelayed(plugin, task -> {
             Session session1 = conversations.remove(player.getUniqueId());
             if (session1 != null) session1.cancel();
-            Message.sendErrorMsg(player, "会话超时");
+            Message.send(player, MessageKey.SESSION_TIMEOUT);
         }, null, seconds * 20L));
 
         return conversation;
@@ -50,14 +51,14 @@ public class InputManager {
         }
 
         if (!Digit.isDigit(message)) {
-            Message.sendErrorMsg(player, "必须输入一个数字");
+            Message.send(player, MessageKey.INPUT_NOT_NUMBER);
             return true;
         }
 
         double amount = Double.parseDouble(message);
 
         if (amount <= 0) {
-            Message.sendErrorMsg(player, "金额必须大于0");
+            Message.send(player, MessageKey.AMOUNT_BELOW_ZERO);
             return true;
         }
 
