@@ -15,6 +15,10 @@ run-as-server: true
 #更改之后使用 /cbank reload all 加载配置
 server-name: random
 
+#价格倍率
+#表示服务器物价是标准的多少倍
+#越高则说明该服务器物价越高
+#向其他服务器转账时其他服务器实际收到的数额为 本服倍率/其他服倍率
 exchange-factor: 1
 
 #自定义UI配置
