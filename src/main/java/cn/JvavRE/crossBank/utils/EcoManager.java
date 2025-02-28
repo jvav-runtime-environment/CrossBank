@@ -42,7 +42,7 @@ public class EcoManager {
 
             //计算实际应该得到的数额
             double factor = Double.parseDouble(factorResponse.getMessage());
-            double realAmount = amount * (Config.getExchangeFactor()/factor);
+            double realAmount = amount * (Config.getExchangeFactor() / factor);
 
             //扣除金额
             EconomyResponse ecoResponse = plugin.getEcoManager().takePlayerMoney(player, amount);
@@ -95,7 +95,7 @@ public class EcoManager {
 
             //计算实际应该扣除的数额
             double factor = Double.parseDouble(factorResponse.getMessage());
-            double realAmount = amount * (factor/Config.getExchangeFactor());
+            double realAmount = amount * (factor / Config.getExchangeFactor());
 
             DataPack dataPack = DataPack.build()
                     .withType(DataPack.messageType.GET_MONEY)

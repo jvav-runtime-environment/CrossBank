@@ -6,7 +6,6 @@ import cn.JvavRE.crossBank.config.MessageKey;
 import cn.JvavRE.crossBank.connection.DataPack;
 import cn.JvavRE.crossBank.utils.Digit;
 import cn.JvavRE.crossBank.utils.Message;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
