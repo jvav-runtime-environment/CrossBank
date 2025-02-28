@@ -15,10 +15,12 @@ run-as-server: true
 #更改之后使用 /cbank reload all 加载配置
 server-name: random
 
+exchange-factor: 1
+
 #自定义UI配置
 ui:
   header: "<bold><color:#5EFFFF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰<color:#00FF9B> [ 跨服银行 ] </color>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold>"
-  content: "<color:#5EFFFF>⦿ <color:#00FF9B>{server}</color>  余额: <color:#FFD700>{amount}</color><newline><color:#5EFFFF>├─ </color>{action}</color>"
+  content: "<color:#5EFFFF>⦿ <color:#00FF9B>{server}</color>  余额: <color:#FFD700>{amount}</color> <hover:show_text:'<color:#5EFFFF>存款时这个服务器收到的金额 <blue>×{depositFactor}</blue><newline>取款时你收到的金额 <blue>×{withdrawFactor}</blue></color>'>倍率: <blue>{exchangeFactor}</blue></hover> <newline>├─ {action}</color>"
   footer: "<color:#5EFFFF>提示: 点击按钮操作，悬停查看说明</color>"
   action-in-server: "<green>你所在服务器</green>"
   action-unavailable: "<red>服务器不可用</red>"
