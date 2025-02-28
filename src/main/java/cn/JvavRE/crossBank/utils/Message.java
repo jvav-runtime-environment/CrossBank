@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 public class Message {
     private static final Component header = MiniMessage.miniMessage().deserialize("<gradient:#0096FF:#00ff96>[CrossBank] </gradient>");
 
-    public static void send(CommandSender sender, MessageKey key, Object... args){
+    public static void send(CommandSender sender, MessageKey key, Object... args) {
         Component component = MiniMessage.miniMessage().deserialize(LanguageConfig.get(key).formatted(args));
         sender.sendMessage(Component.text()
                 .append(header)

@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.*;
 
-
 public class Connection {
     private final CrossBank plugin;
     private final Server server;
@@ -81,15 +80,20 @@ public class Connection {
                     EconomyResponse ecoResponse = plugin.getEcoManager().takePlayerMoney(dataPack.getPlayer(), amount);
 
                     return DataPack.getResponse(dataPack)
-                            .withType(ecoResponse.transactionSuccess() ? DataPack.messageType.RESULT_SUCCEED : DataPack.messageType.RESULT_FAILED)
+                            .withType(ecoResponse.transactionSuccess() ? DataPack.messageType.RESULT_SUCCESS : DataPack.messageType.RESULT_FAILED)
                             .withMessage(ecoResponse.errorMessage);
                 }
                 case PUT_MONEY -> {
                     double amount = Double.parseDouble(dataPack.getMessage());
                     EconomyResponse ecoResponse = plugin.getEcoManager().givePlayerMoney(dataPack.getPlayer(), amount);
                     return DataPack.getResponse(dataPack)
-                            .withType(ecoResponse.transactionSuccess() ? DataPack.messageType.RESULT_SUCCEED : DataPack.messageType.RESULT_FAILED)
+                            .withType(ecoResponse.transactionSuccess() ? DataPack.messageType.RESULT_SUCCESS : DataPack.messageType.RESULT_FAILED)
                             .withMessage(ecoResponse.errorMessage);
+                }
+                case GET_EXCHANGE_FACTOR -> {
+                    return DataPack.getResponse(dataPack)
+                            .withType(DataPack.messageType.RESULT_EXCHANGE_FACTOR)
+                            .withMessage(Config.getExchangeFactor().toString());
                 }
                 default -> {
                     return DataPack.getResponse(dataPack).asError(MessageKey.DATA_PACK_NO_SUCH_COMMAND.getMessage());
@@ -105,7 +109,7 @@ public class Connection {
     // 启动连接
     protected void start() {
         if (running) Bukkit.getServer().getAsyncScheduler().runDelayed(plugin, (task) -> {
-            if (Config.isServer && server.isClosed()) {
+            if (Config.isServer() && server.isClosed()) {
                 plugin.getLogger().info("启动服务端...");
                 server.start();
             }
