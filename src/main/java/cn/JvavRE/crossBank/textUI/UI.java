@@ -33,6 +33,7 @@ public class UI {
                     .withType(DataPack.messageType.GET_EXCHANGE_FACTOR)
                     .withTargetServer(serverName);
             String factor = plugin.getConnManager().request(factorDataPack).getMessage();
+            String relativeFactor = String.valueOf(Double.parseDouble(factor) / Config.getExchangeFactor());
 
             String action;
             if (!Config.getServerName().equals(serverName)) {
@@ -42,6 +43,7 @@ public class UI {
                     action = UIConfig.getActionUnavailable();
                     amount = "--.--";
                     factor = "--";
+                    relativeFactor = "--";
                 }
             } else action = UIConfig.getActionInServer();
 
@@ -52,8 +54,7 @@ public class UI {
                     .replace("{server}", serverName)
                     .replace("{amount}", amount + "$")
                     .replace("{exchangeFactor}", factor)
-                    .replace("{depositFactor}", String.valueOf(Config.getExchangeFactor() / Double.parseDouble(factor)))
-                    .replace("{withdrawFactor}", String.valueOf(Double.parseDouble(factor) / Config.getExchangeFactor()))
+                    .replace("{relativeFactor}", relativeFactor)
             );
         }
         return contents;

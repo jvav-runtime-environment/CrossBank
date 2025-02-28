@@ -42,7 +42,7 @@ public class EcoManager {
 
             //计算实际应该得到的数额
             double factor = Double.parseDouble(factorResponse.getMessage());
-            double realAmount = amount * (Config.getExchangeFactor() / factor);
+            double realAmount = amount * (factor / Config.getExchangeFactor());
 
             //扣除金额
             EconomyResponse ecoResponse = plugin.getEcoManager().takePlayerMoney(player, amount);
@@ -108,7 +108,7 @@ public class EcoManager {
                 case RESULT_SUCCESS -> {
                     plugin.getEcoManager().givePlayerMoney(player, amount);
                     Message.send(player, MessageKey.TRANSMIT_SUCCESS, amount);
-                    plugin.getLogger().info("<%s> 资金转移: %s(%s) -> %s(%s)".formatted(
+                    plugin.getLogger().info("<%s> 资金转移: %s(%s) -> %s(%s$)".formatted(
                             player.getName(),
                             targetServer,
                             realAmount,

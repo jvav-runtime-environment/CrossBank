@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public class UIConfig {
     private static final String DEFAULT_HEADER = "<bold><color:#5EFFFF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰<color:#00FF9B> [ 跨服银行 ] </color>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold>";
-    private static final String DEFAULT_CONTENT = "<color:#5EFFFF>⦿ <color:#00FF9B>{server}</color>  余额: <color:#FFD700>{amount}</color> <hover:show_text:'<color:#5EFFFF>存款时这个服务器收到的金额 <blue>×{depositFactor}</blue><newline>取款时你收到的金额 <blue>×{withdrawFactor}</blue></color>'>倍率: <blue>{exchangeFactor}</blue></hover> <newline>├─ {action}</color>";
+    private static final String DEFAULT_CONTENT = "<color:#5EFFFF>⦿ <color:#00FF9B>{server}</color>  余额: <color:#FFD700>{amount}</color> <hover:show_text:'<color:#5EFFFF>存款时这个服务器收到的金额 <blue>×{relativeFactor}</blue><newline>取款时这个服务器扣除的金额 <blue>×{relativeFactor}</blue></color>'>倍率: <blue>{exchangeFactor}</blue></hover> <newline>├─ {action}</color>";
     private static final String DEFAULT_FOOTER = "<color:#5EFFFF>提示: 点击按钮操作，悬停查看说明</color>";
     private static final String DEFAULT_ACTION_IN_SERVER = "<green>你所在服务器</green>";
     private static final String DEFAULT_ACTION_UNAVAILABLE = "<red>服务器不可用</red>";
