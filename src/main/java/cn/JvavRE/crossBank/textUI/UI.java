@@ -52,8 +52,8 @@ public class UI {
                     .replace("{server}", serverName)
                     .replace("{amount}", amount + "$")
                     .replace("{exchangeFactor}", factor)
-                    .replace("{depositFactor}", String.valueOf(Double.parseDouble(factor) / Config.getExchangeFactor()))
-                    .replace("{withdrawFactor}", String.valueOf(Config.getExchangeFactor() / Double.parseDouble(factor)))
+                    .replace("{depositFactor}", String.valueOf(Config.getExchangeFactor() / Double.parseDouble(factor)))
+                    .replace("{withdrawFactor}", String.valueOf(Double.parseDouble(factor) / Config.getExchangeFactor()))
             );
         }
         return contents;
