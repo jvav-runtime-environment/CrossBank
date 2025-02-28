@@ -21,6 +21,10 @@ server-name: random
 #向其他服务器转账时其他服务器实际收到的数额为 本服倍率/其他服倍率
 exchange-factor: 1
 
+#数据更新间隔
+#单位为秒
+update-interval: 60
+
 #自定义UI配置
 ui:
   header: "<bold><color:#5EFFFF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰<color:#00FF9B> [ 跨服银行 ] </color>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold>"

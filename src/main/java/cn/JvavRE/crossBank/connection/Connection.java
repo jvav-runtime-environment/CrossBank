@@ -3,6 +3,7 @@ package cn.JvavRE.crossBank.connection;
 import cn.JvavRE.crossBank.CrossBank;
 import cn.JvavRE.crossBank.config.Config;
 import cn.JvavRE.crossBank.config.MessageKey;
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 
@@ -18,6 +19,7 @@ public class Connection {
     private final Client client;
     private final Map<UUID, CompletableFuture<DataPack>> dataPackFutures;
     private String[] onlineServers = {};
+    private ScheduledTask updateServersTask;
 
     private boolean running;
 
@@ -123,7 +125,7 @@ public class Connection {
     // 从服务端获取在线服务器列表
     // TODO: 当服务端启动成功时直接获取数据(优化)
     private void startUpdateServersTask() {
-        if (running) plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, task -> {
+        if (running) updateServersTask = plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, task -> {
             try {
                 DataPack dataPack = DataPack.build().withType(DataPack.messageType.SERVER_GET_NAMES);
                 DataPack response = request(dataPack);
@@ -137,7 +139,7 @@ public class Connection {
                 startUpdateServersTask();
                 throw new RuntimeException(e);
             }
-        }, 1, 60, TimeUnit.SECONDS);
+        }, 1, Config.getUpdateInterval(), TimeUnit.SECONDS);
     }
 
     public String[] getOnlineServers() {
@@ -167,6 +169,7 @@ public class Connection {
     public void reload() {
         server.close();
         client.close();
+        updateServersTask.cancel();
         onlineServers = new String[]{};
         start();
     }
