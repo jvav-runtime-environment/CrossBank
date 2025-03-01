@@ -3,6 +3,7 @@ package cn.JvavRE.crossBank.connection;
 import cn.JvavRE.crossBank.CrossBank;
 import cn.JvavRE.crossBank.config.Config;
 import cn.JvavRE.crossBank.config.MessageKey;
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 
@@ -12,13 +13,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.*;
 
-
 public class Connection {
     private final CrossBank plugin;
     private final Server server;
     private final Client client;
     private final Map<UUID, CompletableFuture<DataPack>> dataPackFutures;
     private String[] onlineServers = {};
+    private ScheduledTask updateServersTask;
 
     private boolean running;
 
@@ -81,15 +82,20 @@ public class Connection {
                     EconomyResponse ecoResponse = plugin.getEcoManager().takePlayerMoney(dataPack.getPlayer(), amount);
 
                     return DataPack.getResponse(dataPack)
-                            .withType(ecoResponse.transactionSuccess() ? DataPack.messageType.RESULT_SUCCEED : DataPack.messageType.RESULT_FAILED)
+                            .withType(ecoResponse.transactionSuccess() ? DataPack.messageType.RESULT_SUCCESS : DataPack.messageType.RESULT_FAILED)
                             .withMessage(ecoResponse.errorMessage);
                 }
                 case PUT_MONEY -> {
                     double amount = Double.parseDouble(dataPack.getMessage());
                     EconomyResponse ecoResponse = plugin.getEcoManager().givePlayerMoney(dataPack.getPlayer(), amount);
                     return DataPack.getResponse(dataPack)
-                            .withType(ecoResponse.transactionSuccess() ? DataPack.messageType.RESULT_SUCCEED : DataPack.messageType.RESULT_FAILED)
+                            .withType(ecoResponse.transactionSuccess() ? DataPack.messageType.RESULT_SUCCESS : DataPack.messageType.RESULT_FAILED)
                             .withMessage(ecoResponse.errorMessage);
+                }
+                case GET_EXCHANGE_FACTOR -> {
+                    return DataPack.getResponse(dataPack)
+                            .withType(DataPack.messageType.RESULT_EXCHANGE_FACTOR)
+                            .withMessage(Config.getExchangeFactor().toString());
                 }
                 default -> {
                     return DataPack.getResponse(dataPack).asError(MessageKey.DATA_PACK_NO_SUCH_COMMAND.getMessage());
@@ -105,7 +111,7 @@ public class Connection {
     // 启动连接
     protected void start() {
         if (running) Bukkit.getServer().getAsyncScheduler().runDelayed(plugin, (task) -> {
-            if (Config.isServer && server.isClosed()) {
+            if (Config.isServer() && server.isClosed()) {
                 plugin.getLogger().info("启动服务端...");
                 server.start();
             }
@@ -119,7 +125,7 @@ public class Connection {
     // 从服务端获取在线服务器列表
     // TODO: 当服务端启动成功时直接获取数据(优化)
     private void startUpdateServersTask() {
-        if (running) plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, task -> {
+        if (running) updateServersTask = plugin.getServer().getAsyncScheduler().runAtFixedRate(plugin, task -> {
             try {
                 DataPack dataPack = DataPack.build().withType(DataPack.messageType.SERVER_GET_NAMES);
                 DataPack response = request(dataPack);
@@ -133,7 +139,7 @@ public class Connection {
                 startUpdateServersTask();
                 throw new RuntimeException(e);
             }
-        }, 1, 60, TimeUnit.SECONDS);
+        }, 1, Config.getUpdateInterval(), TimeUnit.SECONDS);
     }
 
     public String[] getOnlineServers() {
@@ -163,6 +169,7 @@ public class Connection {
     public void reload() {
         server.close();
         client.close();
+        updateServersTask.cancel();
         onlineServers = new String[]{};
         start();
     }

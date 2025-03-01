@@ -189,6 +189,7 @@ public class DataPack {
     public enum messageType {
         HELLO,
         PEEK_AMOUNT,
+        GET_EXCHANGE_FACTOR,
         GET_MONEY,
         PUT_MONEY,
 
@@ -197,7 +198,8 @@ public class DataPack {
 
         RESULT_HELLO,
         RESULT_AMOUNT,
-        RESULT_SUCCEED,
+        RESULT_EXCHANGE_FACTOR,
+        RESULT_SUCCESS,
         RESULT_FAILED,
 
         RESULT_INTERNAL_ERROR,

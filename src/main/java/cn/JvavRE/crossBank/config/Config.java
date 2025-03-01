@@ -6,10 +6,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.UUID;
 
 public class Config {
-    public static String host;
-    public static int port;
-    public static boolean isServer;
-    public static String serverName;
+    private static String host;
+    private static int port;
+    private static boolean isServer;
+    private static String serverName;
+    private static Double exchangeFactor;
+    private static int updateInterval;
 
     private static CrossBank plugin;
 
@@ -34,6 +36,12 @@ public class Config {
         isServer = configuration.getBoolean("run-as-server", true);
         serverName = configuration.getString("server-name", UUID.randomUUID().toString());
 
+        //转移倍率
+        //向其他服务器转账时其他服务器实际收到的数额为 本服倍率/其他服倍率
+        exchangeFactor = configuration.getDouble("exchange-factor", 1);
+        //数据更新间隔
+        updateInterval = configuration.getInt("update-interval", 60);
+
         // 自定义ui
         UIConfig.loadConfig(configuration.getConfigurationSection("ui"));
 
@@ -51,6 +59,14 @@ public class Config {
         }
     }
 
+    public static int getUpdateInterval() {
+        return updateInterval;
+    }
+
+    public static Double getExchangeFactor() {
+        return exchangeFactor;
+    }
+
     public static String getServerName() {
         return serverName;
     }
@@ -61,5 +77,9 @@ public class Config {
 
     public static String getHost() {
         return host;
+    }
+
+    public static boolean isServer() {
+        return isServer;
     }
 }

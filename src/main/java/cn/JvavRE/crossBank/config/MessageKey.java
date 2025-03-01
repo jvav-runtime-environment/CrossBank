@@ -14,7 +14,7 @@ public enum MessageKey {
     SESSION_TIMEOUT("session-timeout", "<red>会话超时</red>"),
     SESSION_CANCELED("session-canceled", "<red>会话已取消</red>"),
 
-    TRANSMIT_SUCCESS("transmit-success","<green>成功转移 <yellow>%s</yellow>$</green>"),
+    TRANSMIT_SUCCESS("transmit-success", "<green>成功转移 <yellow>%s</yellow>$</green>"),
     ONLINE_SERVERS("online-servers", "<green>当前在线服务器: <yellow>%s</yellow></green>"),
     PING("ping", "<green>收到的返回值: </green>"),
 

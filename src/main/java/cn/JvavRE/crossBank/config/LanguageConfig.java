@@ -11,11 +11,11 @@ public class LanguageConfig {
     protected static void loadConfig(ConfigurationSection langConfig) {
         Map<String, String> newMap = new ConcurrentHashMap<>();
 
-        if(langConfig!=null) {
+        if (langConfig != null) {
             for (MessageKey key : MessageKey.values()) {
                 newMap.put(key.getKeyName(), langConfig.getString(key.getKeyName(), key.getMessage()));
             }
-        }else {
+        } else {
             for (MessageKey key : MessageKey.values()) {
                 newMap.put(key.getKeyName(), key.getMessage());
             }

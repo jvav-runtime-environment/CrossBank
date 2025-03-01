@@ -23,19 +23,27 @@ public class UI {
         ArrayList<String> contents = new ArrayList<>();
 
         for (String serverName : plugin.getConnManager().getOnlineServers()) {
-            DataPack dataPack = DataPack.build()
+            DataPack amountDataPack = DataPack.build()
                     .withType(DataPack.messageType.PEEK_AMOUNT)
                     .withTargetServer(serverName)
                     .withPlayer(player);
-            String amount = plugin.getConnManager().request(dataPack).getMessage();
+            String amount = plugin.getConnManager().request(amountDataPack).getMessage();
+
+            DataPack factorDataPack = DataPack.build()
+                    .withType(DataPack.messageType.GET_EXCHANGE_FACTOR)
+                    .withTargetServer(serverName);
+            String factor = plugin.getConnManager().request(factorDataPack).getMessage();
+            String relativeFactor = String.valueOf(Double.parseDouble(factor) / Config.getExchangeFactor());
 
             String action;
             if (!Config.getServerName().equals(serverName)) {
-                if (Digit.isDigit(amount)) {
+                if (Digit.isDigit(amount) && Digit.isDigit(factor)) {
                     action = UIConfig.getActionAvailable();
                 } else {
                     action = UIConfig.getActionUnavailable();
                     amount = "--.--";
+                    factor = "--";
+                    relativeFactor = "--";
                 }
             } else action = UIConfig.getActionInServer();
 
@@ -45,6 +53,8 @@ public class UI {
                     .replace("{depositButton}", UIConfig.getDepositButton())
                     .replace("{server}", serverName)
                     .replace("{amount}", amount + "$")
+                    .replace("{exchangeFactor}", factor)
+                    .replace("{relativeFactor}", relativeFactor)
             );
         }
         return contents;

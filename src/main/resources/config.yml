@@ -15,10 +15,20 @@ run-as-server: true
 #更改之后使用 /cbank reload all 加载配置
 server-name: random
 
+#价格倍率
+#表示服务器物价是标准的多少倍
+#越高则说明该服务器物价越高
+#向其他服务器转账时其他服务器实际收到的数额为 本服倍率/其他服倍率
+exchange-factor: 1
+
+#数据更新间隔
+#单位为秒
+update-interval: 60
+
 #自定义UI配置
 ui:
   header: "<bold><color:#5EFFFF>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰<color:#00FF9B> [ 跨服银行 ] </color>▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰</color></bold>"
-  content: "<color:#5EFFFF>⦿ <color:#00FF9B>{server}</color>  余额: <color:#FFD700>{amount}</color><newline><color:#5EFFFF>├─ </color>{action}</color>"
+  content: "<color:#5EFFFF>⦿ <color:#00FF9B>{server}</color>  余额: <color:#FFD700>{amount}</color> <hover:show_text:'<color:#5EFFFF>存款时这个服务器收到的金额 <blue>×{relativeFactor}</blue><newline>取款时这个服务器扣除的金额 <blue>×{relativeFactor}</blue></color>'>倍率: <blue>{exchangeFactor}</blue></hover> <newline>├─ {action}</color>"
   footer: "<color:#5EFFFF>提示: 点击按钮操作，悬停查看说明</color>"
   action-in-server: "<green>你所在服务器</green>"
   action-unavailable: "<red>服务器不可用</red>"

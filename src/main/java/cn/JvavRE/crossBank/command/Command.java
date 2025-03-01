@@ -6,7 +6,6 @@ import cn.JvavRE.crossBank.config.MessageKey;
 import cn.JvavRE.crossBank.connection.DataPack;
 import cn.JvavRE.crossBank.utils.Digit;
 import cn.JvavRE.crossBank.utils.Message;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -62,7 +61,7 @@ public class Command implements CommandExecutor {
 
         plugin.getServer().getAsyncScheduler().runNow(plugin, (scheduledTask) -> {
             DataPack result = plugin.getConnManager().request(dataPack);
-            Message.send(sender, MessageKey.PING,result.getMessage());
+            Message.send(sender, MessageKey.PING, result.getMessage());
         });
     }
 
@@ -145,12 +144,6 @@ public class Command implements CommandExecutor {
 
         if (!Digit.isDigit(amount)) {
             Message.send(player, MessageKey.INPUT_NOT_NUMBER);
-            return;
-        }
-
-        EconomyResponse ecoResponse = plugin.getEcoManager().takePlayerMoney(player, Double.parseDouble(amount));
-        if (!ecoResponse.transactionSuccess()) {
-            Message.send(player, MessageKey.TRANSMIT_FAILED, ecoResponse.errorMessage);
             return;
         }
 
