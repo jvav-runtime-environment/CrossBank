@@ -49,7 +49,7 @@ public class Config {
         LanguageConfig.loadConfig(configuration.getConfigurationSection("language"));
 
         // 如果主机ip不是localhost则一定不作为服务端启动
-        if (!(host.equals("localhost") || host.equals("127.0.0.1"))) {
+        if (!isLocalhost()) {
             isServer = false;
         }
 
@@ -57,6 +57,10 @@ public class Config {
         if (serverName.equals("random")) {
             serverName = UUID.randomUUID().toString();
         }
+    }
+
+    public static boolean isLocalhost() {
+        return host.equals("localhost") || host.equals("127.0.0.1");
     }
 
     public static int getUpdateInterval() {

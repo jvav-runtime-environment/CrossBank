@@ -36,7 +36,12 @@ public class Server {
                 while (!serverSocket.isClosed()) {
                     try {
                         Socket socket = serverSocket.accept();
-                        Bukkit.getServer().getAsyncScheduler().runNow(plugin, task1 -> handleClientConnection(socket));
+
+                        // 防止其他来源伪装成客户端
+                        if (!Config.isLocalhost() || socket.getInetAddress().isLoopbackAddress()) {
+                            Bukkit.getServer().getAsyncScheduler().runNow(plugin, task1 -> handleClientConnection(socket));
+                        }else socket.close();
+
                     } catch (IOException ignored) {
                     }
                 }
